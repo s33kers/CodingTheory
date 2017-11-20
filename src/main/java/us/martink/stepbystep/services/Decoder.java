@@ -12,6 +12,6 @@ public class Decoder {
     }
 
     public double[] sendThroughChannel(Vector vector) {
-        double []
+        return null;
     }
 }

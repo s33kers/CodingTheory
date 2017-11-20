@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Vektorius</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"/>
+
+</head>
+<body>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+
+<nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand" th:href="@{/}">Step by step decoding</a>
+        </div>
+        <ul class="nav navbar-nav">
+            <li class="active"><a th:href="@{/requestVector}">Vektorius</a></li>
+            <li><a th:href="@{/text}">Tekstas</a></li>
+            <li><a href="#">Paveikslelis</a></li>
+        </ul>
+    </div>
+</nav>
+
+<div class="container-fluid text-center">
+    <div class="row content">
+        <div class="col-sm-2 sidenav"></div>
+        <div class="col-sm-8 text-left">
+            <div th:if="${validation != null}" class="bg-danger text-white">
+                <h1>Bloga validacija</h1>
+                <p>
+                   <span th:text="${validation}"/>
+                </p>
+            </div>
+            <div>
+                <form method="post" th:object="${requestVector}">
+                    <h1>Kodo paramentrai</h1>
+                    <div class="form-group">
+                        <label for="n">Kodo dimensija(n):</label>
+                        <input class="form-control" id="n" th:field="${requestVector.nText}"/>
+                    </div>
+                    <div class="form-group">
+                        <label for="k">Kodo ilgis(k):</label>
+                        <input class="form-control" id="k" th:field="${requestVector.kText}"/>
+                    </div>
+                    <div class="form-group">
+                        <label for="p">Klaidos tikimybė:</label>
+                        <input class="form-control" id="p" th:field="${requestVector.pText}"/>
+                    </div>
+                    <div class="form-group">
+                        <label for="matrix">Generuojanti matrica (jei tuscia, bus sugeneruota atsitiktine):</label>
+                        <textarea class="form-control" style="min-width: 100%" id="matrix" rows="10" th:field="${requestVector.matrixText}"/>
+                    </div>
+                    <h1>Vektorius</h1>
+                    <div class="form-group">
+                        <label for="vector">Įveskite n ilgio vektorių:</label>
+                        <input class="form-control" id="vector" th:field="${requestVector.vectorText}"/>
+                    </div>
+                    <div>
+                        <input type="submit" value="Užkoduoti" name="action" class="btn btn-default"/>
+                    </div>
+                </form>
+            </div>
+            <div th:if="${requestVector.encodedVector != null}">
+                <form method="post" th:object="${requestVector}">
+                    <div class="form-group">
+                        <label for="vectorText">Užkoduotas vektorius:</label>
+                        <input class="form-control" id="vectorText" th:field="${requestVector.encodedVector.vectorText}"/>
+                    </div>
+                    <div class="form-group">
+                        <label for="transferredText">Iš kanalo gautas vektorius:</label>
+                        <input class="form-control" id="transferredText" th:field="${requestVector.encodedVector.transferredText}"/>
+                    </div>
+                    <div class="form-group">
+                        <label for="mistakesCount">Klaidų skaičius:</label>
+                        <input class="form-control" id="mistakesCount" th:field="${requestVector.encodedVector.mistakesCount}"/>
+                    </div>
+                    <div class="form-group">
+                        <label for="mistakes">Klaidų pozicijos:</label>
+                        <input class="form-control" id="mistakes" th:field="${requestVector.encodedVector.mistakesText}"/>
+                    </div>
+                    <div>
+                        <input type="submit" value="Dekoduoti" name="action" class="btn btn-default"/>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="col-sm-2 sidenav"></div>
+    </div>
+</div>
+
+<footer class="container-fluid text-center">
+</footer>
+</body>
+</html>
