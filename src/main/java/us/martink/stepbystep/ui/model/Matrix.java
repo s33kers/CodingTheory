@@ -29,10 +29,10 @@ public class Matrix {
     }
 
     public static int[][] generateRandomMatrix(int n, int k) {
-        int[][] matrix = new int[n][k];
-        for (int i = 0; i < n; i++) {
-            for (int j = 0; j < k; j++) {
-                if (n-j > 0) {
+        int[][] matrix = new int[k][n];
+        for (int i = 0; i < k; i++) {
+            for (int j = 0; j < n; j++) {
+                if (k-j > 0) {
                     matrix[i][j] = (i == j ? 1 : 0);
                 } else {
                     matrix[i][j] = (Math.random() % 2 == 0 ? 1 : 0);
