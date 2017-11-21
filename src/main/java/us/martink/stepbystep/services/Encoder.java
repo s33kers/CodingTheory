@@ -1,5 +1,7 @@
 package us.martink.stepbystep.services;
 
+import us.martink.stepbystep.ui.model.Matrix;
+
 /**
  * Created by tadas.
  */

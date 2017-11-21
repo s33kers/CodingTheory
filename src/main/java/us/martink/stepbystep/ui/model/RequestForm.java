@@ -13,8 +13,7 @@ public class RequestForm implements Serializable {
     private int k;
     private String pText;
     private double p;
-    private String matrixText;
-    private int[][] matrix;
+    private Matrix matrix = new Matrix();
 
     public String getnText() {
         return nText;
@@ -64,19 +63,11 @@ public class RequestForm implements Serializable {
         this.p = p;
     }
 
-    public String getMatrixText() {
-        return matrixText;
-    }
-
-    public void setMatrixText(String matrixText) {
-        this.matrixText = matrixText;
-    }
-
-    public int[][] getMatrix() {
+    public Matrix getMatrix() {
         return matrix;
     }
 
-    public void setMatrix(int[][] matrix) {
+    public void setMatrix(Matrix matrix) {
         this.matrix = matrix;
     }
 }

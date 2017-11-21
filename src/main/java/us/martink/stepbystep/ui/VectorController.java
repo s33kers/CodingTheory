@@ -8,11 +8,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import us.martink.stepbystep.services.Channel;
 import us.martink.stepbystep.services.Encoder;
-import us.martink.stepbystep.services.Matrix;
-import us.martink.stepbystep.services.Vector;
+import us.martink.stepbystep.ui.model.Matrix;
+import us.martink.stepbystep.ui.model.Vector;
 import us.martink.stepbystep.ui.model.VectorRequestForm;
 
 import java.util.Arrays;
+import java.util.List;
 
 /**
  * Created by tadas.
@@ -36,17 +37,20 @@ public class VectorController {
             return "vector";
         }
 
-        vectorRequest.setEncodedVector(new Vector());
         //encode vector
-        vectorRequest.getEncodedVector().setVector(Encoder.encodeVector(vectorRequest.getMatrix(), vectorRequest.getVector()));
+        vectorRequest.setEncodedVector(new Vector());
+        vectorRequest.getEncodedVector().setVector(Encoder.encodeVector(vectorRequest.getMatrix().getMatrix(), vectorRequest.getSimpleVector().getVector()));
         vectorRequest.getEncodedVector().setVectorText(Vector.vectorToString(vectorRequest.getEncodedVector().getVector(), ""));
 
         //transfer vector
         int[] transferredVector = vectorRequest.getEncodedVector().getVector().clone();
-        vectorRequest.getEncodedVector().setMistakes(Channel.sendThroughChannel(vectorRequest.getP(), transferredVector));
-        vectorRequest.getEncodedVector().setMistakesText(Vector.vectorToString(vectorRequest.getEncodedVector().getMistakes(), " "));
-        vectorRequest.getEncodedVector().setTransferred(transferredVector);
-        vectorRequest.getEncodedVector().setTransferredText(Vector.vectorToString(transferredVector, ""));
+        vectorRequest.setMistakes(new Vector());
+        List<Integer> mistakesList = Channel.sendThroughChannel(vectorRequest.getP(), transferredVector);
+        vectorRequest.getMistakes().setVector(mistakesList.stream().mapToInt(i->i).toArray());
+        vectorRequest.getMistakes().setVectorText(Vector.vectorToString(vectorRequest.getMistakes().getVector(), " "));
+        vectorRequest.setTransferredVector(new Vector());
+        vectorRequest.getTransferredVector().setVector(transferredVector);
+        vectorRequest.getTransferredVector().setVectorText(Vector.vectorToString(transferredVector, ""));
 
         model.addAttribute("requestVector", vectorRequest);
         return "vector";
@@ -83,35 +87,36 @@ public class VectorController {
             return "n yra privalomas";
         }
 
-        if (StringUtils.isNoneBlank(vectorRequest.getVectorText())) {
+        if (StringUtils.isNoneBlank(vectorRequest.getSimpleVector().getVectorText())) {
             int vector = getInteger(vectorRequest.getnText());
             if (vector < 0) {
                 return "blogas vektorius";
             }
-            if (vectorRequest.getVectorText().length() != vectorRequest.getN()) {
+            if (vectorRequest.getSimpleVector().getVectorText().length() != vectorRequest.getN()) {
                 return "vektoriaus ilgis turi būti lygus " + vectorRequest.getN();
             }
-            int[] matrix = new int[vectorRequest.getVectorText().length()];
-            for (int i = 0; i < vectorRequest.getVectorText().length(); i++)
+            int[] matrix = new int[vectorRequest.getSimpleVector().getVectorText().length()];
+            for (int i = 0; i < vectorRequest.getSimpleVector().getVectorText().length(); i++)
             {
-                int value = vectorRequest.getVectorText().charAt(i) - '0';
+                int value = vectorRequest.getSimpleVector().getVectorText().charAt(i) - '0';
                 if (value != 0 && value != 1) {
                     return "vektorius turi būti sudarytas iš kūno q = 2 elementų. (0 ir 1)";
                 }
                 matrix[i] = value;
             }
-            vectorRequest.setVector(matrix);
+            vectorRequest.getSimpleVector().setVector(matrix);
         } else {
             return "vektorius yra privalomas";
         }
 
-        if (StringUtils.isNoneBlank(vectorRequest.getMatrixText())) {
-            String[] matrixRows = vectorRequest.getMatrixText().split("\n");
+        Matrix matrix = vectorRequest.getMatrix();
+        if (StringUtils.isNoneBlank(matrix.getMatrixText())) {
+            String[] matrixRows = matrix.getMatrixText().split("\n");
 
             if (matrixRows.length != vectorRequest.getN()) {
                 return "matricos eilučių skaičius turi būti lygus n";
             }
-            vectorRequest.setMatrix(new int[vectorRequest.getK()][vectorRequest.getN()]);
+            matrix.setMatrix(new int[vectorRequest.getK()][vectorRequest.getN()]);
             for (int i = 0; i < matrixRows.length; i++) {
                 String matrixRow = matrixRows[i];
                 String[] rowValues = matrixRow.split(" ");
@@ -128,11 +133,11 @@ public class VectorController {
                         return "Matrica turi būti standartinio pavidalo. Eilutė: " + i + " Stulpelis: " + j;
                     }
                 }
-                vectorRequest.getMatrix()[i] = matrixRowValues;
+                matrix.getMatrix()[i] = matrixRowValues;
             }
         } else {
-            vectorRequest.setMatrix(Matrix.generateRandomMatrix(vectorRequest.getN(), vectorRequest.getK()));
-            vectorRequest.setMatrixText(Matrix.matrixToString(vectorRequest.getMatrix()));
+            matrix.setMatrix(Matrix.generateRandomMatrix(vectorRequest.getN(), vectorRequest.getK()));
+            matrix.setMatrixText(Matrix.matrixToString(matrix.getMatrix()));
         }
         return null;
     }

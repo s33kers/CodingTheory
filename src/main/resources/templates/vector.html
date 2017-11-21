@@ -49,12 +49,12 @@
                     </div>
                     <div class="form-group">
                         <label for="matrix">Generuojanti matrica (jei tuscia, bus sugeneruota atsitiktine):</label>
-                        <textarea class="form-control" style="min-width: 100%" id="matrix" rows="10" th:field="${requestVector.matrixText}"/>
+                        <textarea class="form-control" style="min-width: 100%" id="matrix" rows="10" th:field="${requestVector.matrix.matrixText}"/>
                     </div>
                     <h1>Vektorius</h1>
                     <div class="form-group">
                         <label for="vector">Įveskite n ilgio vektorių:</label>
-                        <input class="form-control" id="vector" th:field="${requestVector.vectorText}"/>
+                        <input class="form-control" id="vector" th:field="${requestVector.simpleVector.vectorText}"/>
                     </div>
                     <div>
                         <input type="submit" value="Užkoduoti" name="action" class="btn btn-default"/>
@@ -69,15 +69,15 @@
                     </div>
                     <div class="form-group">
                         <label for="transferredText">Iš kanalo gautas vektorius:</label>
-                        <input class="form-control" id="transferredText" th:field="${requestVector.encodedVector.transferredText}"/>
+                        <input class="form-control" id="transferredText" th:field="${requestVector.transferredVector.vectorText}"/>
                     </div>
                     <div class="form-group">
                         <label for="mistakesCount">Klaidų skaičius:</label>
-                        <input class="form-control" id="mistakesCount" th:field="${requestVector.encodedVector.mistakesCount}"/>
+                        <input class="form-control" id="mistakesCount" th:field="${requestVector.mistakes.vectorSize}"/>
                     </div>
                     <div class="form-group">
                         <label for="mistakes">Klaidų pozicijos:</label>
-                        <input class="form-control" id="mistakes" th:field="${requestVector.encodedVector.mistakesText}"/>
+                        <input class="form-control" id="mistakes" th:field="${requestVector.mistakes.vectorText}"/>
                     </div>
                     <div>
                         <input type="submit" value="Dekoduoti" name="action" class="btn btn-default"/>

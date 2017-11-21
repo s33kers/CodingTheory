@@ -1,30 +1,21 @@
 package us.martink.stepbystep.ui.model;
 
-import us.martink.stepbystep.services.Vector;
-
 /**
  * Created by tadas.
  */
 public class VectorRequestForm extends RequestForm {
 
-    private String vectorText;
-    private int[] vector;
+    private Vector simpleVector = new Vector();
     private Vector encodedVector;
+    private Vector transferredVector;
+    private Vector mistakes;
 
-    public String getVectorText() {
-        return vectorText;
+    public Vector getSimpleVector() {
+        return simpleVector;
     }
 
-    public void setVectorText(String vectorText) {
-        this.vectorText = vectorText;
-    }
-
-    public int[] getVector() {
-        return vector;
-    }
-
-    public void setVector(int[] vector) {
-        this.vector = vector;
+    public void setSimpleVector(Vector simpleVector) {
+        this.simpleVector = simpleVector;
     }
 
     public Vector getEncodedVector() {
@@ -33,5 +24,21 @@ public class VectorRequestForm extends RequestForm {
 
     public void setEncodedVector(Vector encodedVector) {
         this.encodedVector = encodedVector;
+    }
+
+    public Vector getTransferredVector() {
+        return transferredVector;
+    }
+
+    public void setTransferredVector(Vector transferredVector) {
+        this.transferredVector = transferredVector;
+    }
+
+    public Vector getMistakes() {
+        return mistakes;
+    }
+
+    public void setMistakes(Vector mistakes) {
+        this.mistakes = mistakes;
     }
 }

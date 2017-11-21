@@ -1,4 +1,4 @@
-package us.martink.stepbystep.services;
+package us.martink.stepbystep.ui.model;
 
 import java.util.StringJoiner;
 
@@ -8,6 +8,25 @@ import java.util.StringJoiner;
 public class Matrix {
 
     private static final int q = 2;
+
+    private String matrixText;
+    private int[][] matrix;
+
+    public String getMatrixText() {
+        return matrixText;
+    }
+
+    public void setMatrixText(String matrixText) {
+        this.matrixText = matrixText;
+    }
+
+    public int[][] getMatrix() {
+        return matrix;
+    }
+
+    public void setMatrix(int[][] matrix) {
+        this.matrix = matrix;
+    }
 
     public static int[][] generateRandomMatrix(int n, int k) {
         int[][] matrix = new int[n][k];
