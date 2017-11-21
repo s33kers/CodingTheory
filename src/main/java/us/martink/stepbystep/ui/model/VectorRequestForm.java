@@ -9,6 +9,7 @@ public class VectorRequestForm extends RequestForm {
     private Vector encodedVector;
     private Vector transferredVector;
     private Vector mistakes;
+    private Vector decodedVector;
 
     public Vector getSimpleVector() {
         return simpleVector;
@@ -40,5 +41,13 @@ public class VectorRequestForm extends RequestForm {
 
     public void setMistakes(Vector mistakes) {
         this.mistakes = mistakes;
+    }
+
+    public Vector getDecodedVector() {
+        return decodedVector;
+    }
+
+    public void setDecodedVector(Vector decodedVector) {
+        this.decodedVector = decodedVector;
     }
 }

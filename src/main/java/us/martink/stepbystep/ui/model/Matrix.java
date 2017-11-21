@@ -55,7 +55,6 @@ public class Matrix {
         return rows.toString();
     }
 
-    //todo 3x2 blogai, check
     public static int[] multiplyByVector(int[][] matrix, int[] vector) {
         int[] multVector = new int[matrix[0].length];
         for (int i = 0; i < matrix.length; i++) {
@@ -68,5 +67,33 @@ public class Matrix {
         }
 
         return multVector;
+    }
+
+    public int[][] createParityCheckMatrix() {
+        int k = matrix.length;
+        int n = matrix[0].length;
+        int[][] newMatrix = new int[n-k][n];
+        for (int i = 0; i < n - k; i++) {
+            int[] newRow = new int[n];
+
+            for (int j = 0; j < k; j++) {
+                int[] row = this.matrix[j];
+                int cell = row[k + i];
+                newRow[j] = cell;
+            }
+
+            for (int j = k; j < n; j++) {
+                if (j - k < k && k > i) {
+                    newRow[j] = matrix[j-k][i];
+                } else if (i == j - k) {
+                    newRow[j] = 1;
+                } else {
+                    newRow[j] = 0;
+                }
+
+            }
+            newMatrix[i] = newRow;
+        }
+        return newMatrix;
     }
 }

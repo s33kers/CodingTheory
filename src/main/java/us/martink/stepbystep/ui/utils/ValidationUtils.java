@@ -17,6 +17,7 @@ public class ValidationUtils {
             return validate;
         }
 
+        //TODO
         return null;
     }
 
@@ -60,26 +61,26 @@ public class ValidationUtils {
         if (StringUtils.isNoneBlank(matrix.getMatrixText())) {
             String[] matrixRows = matrix.getMatrixText().split("\n");
 
-            if (matrixRows.length != vectorRequest.getN()) {
-                return "matricos eilučių skaičius turi būti lygus n";
-            }
+//            if (matrixRows.length != vectorRequest.getK()) {
+//                return "matricos eilučių skaičius turi būti lygus n";
+//            }
             matrix.setMatrix(new int[vectorRequest.getK()][vectorRequest.getN()]);
             for (int i = 0; i < matrixRows.length; i++) {
                 String matrixRow = matrixRows[i];
                 String[] rowValues = matrixRow.split(" ");
                 int[] matrixRowValues = Arrays.stream(rowValues).mapToInt(value -> Integer.parseInt(value.trim())).filter(value -> value == 0 || value == 1).toArray();
-                if (matrixRowValues.length != rowValues.length) {
-                    return "Neteisingas matricos formatas. Eilutė: " + i;
-                }
-                if (matrixRowValues.length != vectorRequest.getK()) {
-                    return "Stulpelių skaičius turi būti lygus k. Eilutė: " + i;
-                }
+//                if (matrixRowValues.length != rowValues.length) {
+//                    return "Neteisingas matricos formatas. Eilutė: " + i;
+//                }
+//                if (matrixRowValues.length != vectorRequest.getN()) {
+//                    return "Stulpelių skaičius turi būti lygus k. Eilutė: " + i;
+//                }
 
-                for (int j = 0; j < vectorRequest.getN(); j++) {
-                    if ((j == i && matrixRowValues[j] != 1) || (j != i && matrixRowValues[j] != 0)) {
-                        return "Matrica turi būti standartinio pavidalo. Eilutė: " + i + " Stulpelis: " + j;
-                    }
-                }
+//                for (int j = 0; j < vectorRequest.getN(); j++) {
+//                    if ((j == i && matrixRowValues[j] != 1) || (j != i && matrixRowValues[j] != 0)) {
+//                        return "Matrica turi būti standartinio pavidalo. Eilutė: " + i + " Stulpelis: " + j;
+//                    }
+//                }
                 matrix.getMatrix()[i] = matrixRowValues;
             }
         } else {

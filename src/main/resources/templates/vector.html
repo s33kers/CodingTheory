@@ -59,30 +59,34 @@
                     <div>
                         <input type="submit" value="Užkoduoti" name="action" class="btn btn-default"/>
                     </div>
+                    <div th:if="${requestVector.encodedVector != null}">
+                        <div class="form-group">
+                            <label for="vectorText">Užkoduotas vektorius:</label>
+                            <input class="form-control" id="vectorText" th:field="${requestVector.encodedVector.vectorText}"/>
+                        </div>
+                        <div class="form-group">
+                            <label for="transferredText">Iš kanalo gautas vektorius:</label>
+                            <input class="form-control" id="transferredText" th:field="${requestVector.transferredVector.vectorText}"/>
+                        </div>
+                        <div class="form-group">
+                            <label for="mistakesCount">Klaidų skaičius:</label>
+                            <input class="form-control" id="mistakesCount" th:field="${requestVector.mistakes.vectorSize}"/>
+                        </div>
+                        <div class="form-group">
+                            <label for="mistakes">Klaidų pozicijos:</label>
+                            <input class="form-control" id="mistakes" th:field="${requestVector.mistakes.vectorText}"/>
+                        </div>
+                        <div>
+                            <input type="submit" value="Dekoduoti" name="action" class="btn btn-default"/>
+                        </div>
+                    </div>
                 </form>
             </div>
-            <div th:if="${requestVector.encodedVector != null}">
-                <form method="post" th:object="${requestVector}">
-                    <div class="form-group">
-                        <label for="vectorText">Užkoduotas vektorius:</label>
-                        <input class="form-control" id="vectorText" th:field="${requestVector.encodedVector.vectorText}"/>
-                    </div>
-                    <div class="form-group">
-                        <label for="transferredText">Iš kanalo gautas vektorius:</label>
-                        <input class="form-control" id="transferredText" th:field="${requestVector.transferredVector.vectorText}"/>
-                    </div>
-                    <div class="form-group">
-                        <label for="mistakesCount">Klaidų skaičius:</label>
-                        <input class="form-control" id="mistakesCount" th:field="${requestVector.mistakes.vectorSize}"/>
-                    </div>
-                    <div class="form-group">
-                        <label for="mistakes">Klaidų pozicijos:</label>
-                        <input class="form-control" id="mistakes" th:field="${requestVector.mistakes.vectorText}"/>
-                    </div>
-                    <div>
-                        <input type="submit" value="Dekoduoti" name="action" class="btn btn-default"/>
-                    </div>
-                </form>
+            <div th:if="${requestVector.decodedVector != null}">
+                <div class="form-group">
+                    <label for="vectorText">Iškoduotas vektorius:</label>
+                    <input class="form-control" id="vectorText" th:field="${requestVector.decodedVector.vectorText}"/>
+                </div>
             </div>
         </div>
         <div class="col-sm-2 sidenav"></div>

@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import us.martink.stepbystep.services.Channel;
+import us.martink.stepbystep.services.Decoder;
 import us.martink.stepbystep.services.Encoder;
 import us.martink.stepbystep.ui.model.Vector;
 import us.martink.stepbystep.ui.model.VectorRequestForm;
@@ -56,12 +57,19 @@ public class VectorController {
 
     @RequestMapping(value="/vector", method= RequestMethod.POST, params="action=Dekoduoti")
     public String decode(@ModelAttribute VectorRequestForm vectorRequest, Model model) {
-        String validation = ValidationUtils.validateBeforeVectorEncoding(vectorRequest);
+        String validation = ValidationUtils.validateBeforeVectorDecoding(vectorRequest);
         if (validation != null) {
             model.addAttribute("validation", validation);
             model.addAttribute("requestVector", vectorRequest);
             return "vector";
         }
-        return "";
+        //TODO perkurt per nauja visus object is Text lauku
+
+        vectorRequest.setDecodedVector(new Vector());
+        vectorRequest.getDecodedVector().setVector(Decoder.decodeVector(vectorRequest.getMatrix(), vectorRequest.getTransferredVector()));
+        vectorRequest.getDecodedVector().setVectorText(Vector.vectorToString(vectorRequest.getDecodedVector().getVector(), ""));
+
+        model.addAttribute("requestVector", vectorRequest);
+        return "vector";
     }
 }

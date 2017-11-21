@@ -1,5 +1,6 @@
 package us.martink.stepbystep.services;
 
+import us.martink.stepbystep.ui.model.Matrix;
 import us.martink.stepbystep.ui.model.Vector;
 
 /**
@@ -7,13 +8,8 @@ import us.martink.stepbystep.ui.model.Vector;
  */
 public class Decoder {
 
-    private int p;
-
-    public Decoder(int p) {
-        this.p = p;
-    }
-
-    public double[] sendThroughChannel(Vector vector) {
-        return null;
+    public static int[] decodeVector(Matrix matrixG, Vector vector) {
+        int[][] matrixH = matrixG.createParityCheckMatrix();
+        return new int[0];
     }
 }
