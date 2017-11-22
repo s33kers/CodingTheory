@@ -60,6 +60,7 @@
                         <input type="submit" value="Užkoduoti" name="action" class="btn btn-default"/>
                     </div>
                     <div th:if="${requestVector.encodedVector != null}">
+                        <h1>Užkodavimo rezultatai</h1>
                         <div class="form-group">
                             <label for="vectorText">Užkoduotas vektorius:</label>
                             <input class="form-control" id="vectorText" th:field="${requestVector.encodedVector.vectorText}"/>
@@ -83,8 +84,9 @@
                 </form>
             </div>
             <div th:if="${requestVector.decodedVector != null}">
+                <h1>Dekodavimo rezultatai</h1>
                 <div class="form-group">
-                    <label for="vectorText">Iškoduotas vektorius:</label>
+                    <label for="vectorText">Dekoduotas vektorius:</label>
                     <input class="form-control" id="vectorText" th:field="${requestVector.decodedVector.vectorText}"/>
                 </div>
             </div>

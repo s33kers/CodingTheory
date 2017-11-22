@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import us.martink.stepbystep.services.Channel;
 import us.martink.stepbystep.services.Decoder;
 import us.martink.stepbystep.services.Encoder;
+import us.martink.stepbystep.ui.model.Matrix;
 import us.martink.stepbystep.ui.model.Vector;
 import us.martink.stepbystep.ui.model.VectorRequestForm;
 import us.martink.stepbystep.ui.utils.ValidationUtils;
@@ -63,7 +64,13 @@ public class VectorController {
             model.addAttribute("requestVector", vectorRequest);
             return "vector";
         }
-        //TODO perkurt per nauja visus object is Text lauku
+
+        //recreate from request
+        vectorRequest.getMatrix().setMatrix(Matrix.textToMatrix(vectorRequest.getMatrix().getMatrixText(), vectorRequest.getK(), vectorRequest.getN()));
+        vectorRequest.getSimpleVector().setVector(Vector.textToVector(vectorRequest.getSimpleVector().getVectorText(), ""));
+        vectorRequest.getMistakes().setVector(Vector.textToVector(vectorRequest.getMistakes().getVectorText(), ""));
+        vectorRequest.getEncodedVector().setVector(Vector.textToVector(vectorRequest.getEncodedVector().getVectorText(), ""));
+        vectorRequest.getTransferredVector().setVector(Vector.textToVector(vectorRequest.getTransferredVector().getVectorText(), ""));
 
         vectorRequest.setDecodedVector(new Vector());
         vectorRequest.getDecodedVector().setVector(Decoder.decodeVector(vectorRequest.getMatrix(), vectorRequest.getTransferredVector()));

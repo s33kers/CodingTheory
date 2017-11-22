@@ -1,5 +1,6 @@
 package us.martink.stepbystep.ui.model;
 
+import java.util.Arrays;
 import java.util.StringJoiner;
 
 /**
@@ -95,5 +96,17 @@ public class Matrix {
             newMatrix[i] = newRow;
         }
         return newMatrix;
+    }
+
+    public static int[][] textToMatrix(String matrixText, int k, int n) {
+        int[][] matrix =  new int[k][n];
+        String[] matrixRows = matrixText.split("\n");
+        for (int i = 0; i < matrixRows.length; i++) {
+            String matrixRow = matrixRows[i];
+            String[] rowValues = matrixRow.split(" ");
+            int[] matrixRowValues = Arrays.stream(rowValues).mapToInt(value -> Integer.parseInt(value.trim())).filter(value -> value == 0 || value == 1).toArray();
+            matrix[i] = matrixRowValues;
+        }
+        return matrix;
     }
 }

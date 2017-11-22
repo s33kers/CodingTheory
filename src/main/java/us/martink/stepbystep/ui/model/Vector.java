@@ -1,6 +1,5 @@
 package us.martink.stepbystep.ui.model;
 
-import java.util.List;
 import java.util.StringJoiner;
 
 /**
@@ -39,11 +38,13 @@ public class Vector {
         return stringJoiner.toString();
     }
 
-    public static String vectorToString(List<Integer> vector, String regex) {
-        StringJoiner stringJoiner = new StringJoiner(regex);
-        for (Integer integer : vector) {
-            stringJoiner.add(Integer.toString(integer));
+    public static int[] textToVector(String vectorText, String s) {
+        int[] vector = new int[vectorText.length()];
+        for (int i = 0; i < vectorText.length(); i++)
+        {
+            int value = vectorText.charAt(i) - '0';
+            vector[i] = value;
         }
-        return stringJoiner.toString();
+        return vector;
     }
 }
