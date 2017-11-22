@@ -67,10 +67,10 @@ public class VectorController {
 
         //recreate from request
         vectorRequest.getMatrix().setMatrix(Matrix.textToMatrix(vectorRequest.getMatrix().getMatrixText(), vectorRequest.getK(), vectorRequest.getN()));
-        vectorRequest.getSimpleVector().setVector(Vector.textToVector(vectorRequest.getSimpleVector().getVectorText(), ""));
-        vectorRequest.getMistakes().setVector(Vector.textToVector(vectorRequest.getMistakes().getVectorText(), ""));
-        vectorRequest.getEncodedVector().setVector(Vector.textToVector(vectorRequest.getEncodedVector().getVectorText(), ""));
-        vectorRequest.getTransferredVector().setVector(Vector.textToVector(vectorRequest.getTransferredVector().getVectorText(), ""));
+        vectorRequest.getSimpleVector().setVector(Vector.textToVector(vectorRequest.getSimpleVector().getVectorText()));
+        vectorRequest.getMistakes().setVector(Vector.textToVector(vectorRequest.getMistakes().getVectorText()));
+        vectorRequest.getEncodedVector().setVector(Vector.textToVector(vectorRequest.getEncodedVector().getVectorText()));
+        vectorRequest.getTransferredVector().setVector(Vector.textToVector(vectorRequest.getTransferredVector().getVectorText()));
 
         vectorRequest.setDecodedVector(new Vector());
         vectorRequest.getDecodedVector().setVector(Decoder.decodeVector(vectorRequest.getMatrix(), vectorRequest.getTransferredVector()));

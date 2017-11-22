@@ -7,6 +7,8 @@ import java.util.StringJoiner;
  */
 public class Vector {
 
+    private static final int q = 2;
+
     private String vectorText;
     private int[] vector;
 
@@ -38,13 +40,30 @@ public class Vector {
         return stringJoiner.toString();
     }
 
-    public static int[] textToVector(String vectorText, String s) {
+    public static int[] textToVector(String vectorText) {
         int[] vector = new int[vectorText.length()];
         for (int i = 0; i < vectorText.length(); i++)
         {
             int value = vectorText.charAt(i) - '0';
             vector[i] = value;
         }
+        return vector;
+    }
+
+    public static int getWeight(int[] vector) {
+        int weight = 0;
+        for (int i : vector) {
+            if (i == 0) {
+                weight++;
+            }
+        }
+        return weight;
+    }
+
+    public static int[] addVectors(int[] vector, int[] position) {
+// TODO       if(position < vector.length){
+//            vector[position] = (vector[position] + 1) % q;
+//        }
         return vector;
     }
 }
