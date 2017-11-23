@@ -53,17 +53,38 @@ public class Vector {
     public static int getWeight(int[] vector) {
         int weight = 0;
         for (int i : vector) {
-            if (i == 0) {
+            if (i == 1) {
                 weight++;
             }
         }
         return weight;
     }
 
-    public static int[] addVectors(int[] vector, int[] position) {
-// TODO       if(position < vector.length){
-//            vector[position] = (vector[position] + 1) % q;
-//        }
+    public static int[] addVectors(int[] vector1, int[] vector2) {
+        int[] result = new int[vector1.length];
+        if (vector1.length == vector2.length) {
+            for (int i = 0; i < vector1.length; i++) {
+                result[i] = (vector1[i] + vector2[i]) % q;
+            }
+        }
+        return result;
+    }
+
+    public static int[] intoBinaryArray(int number, int size) {
+        String variable = Integer.toBinaryString(number);
+        StringBuilder stringBuilder = new StringBuilder();
+        for (int i = 0; i < size - variable.length(); i++) {
+            stringBuilder.append("0");
+        }
+        stringBuilder.append(variable);
+        return Vector.textToVector(stringBuilder.toString());
+    }
+
+    public static int[] changeVectorBit(int[] vector, int position){
+        if(position < vector.length){
+            vector[position] = (vector[position] + 1) % q;
+        }
         return vector;
     }
+
 }

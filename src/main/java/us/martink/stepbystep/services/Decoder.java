@@ -5,7 +5,9 @@ import us.martink.stepbystep.ui.model.Vector;
 
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
@@ -14,14 +16,16 @@ import java.util.stream.Collectors;
 public class Decoder {
 
     public static int[] decodeVector(Matrix matrixG, Vector vector) {
+        int[] encodedVector = vector.getVector();
         int[][] matrix = matrixG.getMatrix();
         int k = matrix.length;
         int n = matrix[0].length;
 
         int[][] matrixH = matrixG.createParityCheckMatrix();
         List<int[]> codeWords = new ArrayList<>();
-        for (int i = 0; i < k; i++) {
-            codeWords.add(Matrix.multiplyByVector(matrix, Vector.textToVector(Integer.toBinaryString(i))));
+        int length = (int) Math.pow(2, k);
+        for (int i = 0; i < length; i++) {
+            codeWords.add(Matrix.multiplyByVectorT(matrix, Vector.intoBinaryArray(i, k)));//ne transponuotas
         }
 
         List<List<int[]>> table = new ArrayList<>();
@@ -31,12 +35,33 @@ public class Decoder {
             setCosetRow(table, n, codeWords.size());
         }
 
-//        int syndromesToWeight = getSyndromes(table, matrixH);
-        return new int[0];
+        Map<String, Integer> syndromes = calculateSyndromes(table, matrixH);
+
+        //decoding
+        int[] syndrome = Matrix.multiplyByVector(matrixH, encodedVector);
+        String syndromeText = Vector.vectorToString(syndrome, "");//transponuotas
+        int weight = syndromes.get(syndromeText);
+        int position = 0;
+        int lastWeight;
+
+        while (weight != 0) {
+            lastWeight = weight;
+            encodedVector = Vector.changeVectorBit(encodedVector, position);
+            syndrome = Matrix.multiplyByVector(matrixH, encodedVector);//transponuotas
+            syndromeText = Vector.vectorToString(syndrome, "");
+            weight = syndromes.get(syndromeText);
+
+            if (weight >= lastWeight) {
+                Vector.changeVectorBit(encodedVector, position);
+                weight = lastWeight;
+            }
+            position++;
+        }
+        return encodedVector;
     }
 
     private static void setCosetRow(List<List<int[]>> table, int n, int size) {
-        int combinations = 2^n;
+        int combinations = (int) Math.pow(2, n);
 
         List<List<Integer>> takenNums = table.stream()
                 .map(coset -> coset.stream()
@@ -60,7 +85,7 @@ public class Decoder {
         }).collect(Collectors.toList());
 
         List<int[]> allPossibleVectors = possNumbers.stream()
-                .map(number -> Vector.textToVector(Integer.toBinaryString(number)))
+                .map(number -> Vector.intoBinaryArray(number, n))
                 .collect(Collectors.toList());
 
         allPossibleVectors.sort(Comparator.comparingInt(Vector::getWeight));
@@ -74,5 +99,16 @@ public class Decoder {
             coset.add(Vector.addVectors(cosetLeader, firstCoset.get(i)));
         }
         table.add(coset);
+    }
+
+
+    private static Map<String, Integer> calculateSyndromes(List<List<int[]>> table, int[][] matrixH) {
+        List<int[]> cosetLeaders = table.stream().map(column -> column.get(0)).collect(Collectors.toList());
+        Map<String, Integer> syndromes = new HashMap<>();
+        for (int[] cosetLeader : cosetLeaders) {
+            int[] syndrome = Matrix.multiplyByVector(matrixH, cosetLeader);//transponuotas
+            syndromes.put(Vector.vectorToString(syndrome, ""), Vector.getWeight(syndrome));
+        }
+        return syndromes;
     }
 }

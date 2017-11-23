@@ -70,6 +70,20 @@ public class Matrix {
         return multVector;
     }
 
+    public static int[] multiplyByVectorT(int[][] matrix, int[] vector) {
+        int[] multVector = new int[matrix[0].length];
+        for (int i = 0; i < matrix[0].length; i++) {
+            int sum = 0;
+            for (int j = 0; j < vector.length; j++) {
+                int[] row = matrix[j];
+                sum += row[i]*vector[j];
+            }
+            multVector[i] = sum % q;
+        }
+
+        return multVector;
+    }
+
     public int[][] createParityCheckMatrix() {
         int k = matrix.length;
         int n = matrix[0].length;
