@@ -25,7 +25,7 @@ public class Decoder {
         List<int[]> codeWords = new ArrayList<>();
         int length = (int) Math.pow(2, k);
         for (int i = 0; i < length; i++) {
-            codeWords.add(Matrix.multiplyByVectorT(matrix, Vector.intoBinaryArray(i, k)));//ne transponuotas
+            codeWords.add(Matrix.multiplyByVector(matrix, Vector.intoBinaryArray(i, k)));
         }
 
         List<List<int[]>> table = new ArrayList<>();
@@ -38,8 +38,8 @@ public class Decoder {
         Map<String, Integer> syndromes = calculateSyndromes(table, matrixH);
 
         //decoding
-        int[] syndrome = Matrix.multiplyByVector(matrixH, encodedVector);
-        String syndromeText = Vector.vectorToString(syndrome, "");//transponuotas
+        int[] syndrome = Matrix.multiplyByVectorT(matrixH, encodedVector);
+        String syndromeText = Vector.vectorToString(syndrome, "");
         int weight = syndromes.get(syndromeText);
         int position = 0;
         int lastWeight;
@@ -47,7 +47,7 @@ public class Decoder {
         while (weight != 0) {
             lastWeight = weight;
             encodedVector = Vector.changeVectorBit(encodedVector, position);
-            syndrome = Matrix.multiplyByVector(matrixH, encodedVector);//transponuotas
+            syndrome = Matrix.multiplyByVectorT(matrixH, encodedVector);//transponuotas
             syndromeText = Vector.vectorToString(syndrome, "");
             weight = syndromes.get(syndromeText);
 
@@ -106,7 +106,7 @@ public class Decoder {
         List<int[]> cosetLeaders = table.stream().map(column -> column.get(0)).collect(Collectors.toList());
         Map<String, Integer> syndromes = new HashMap<>();
         for (int[] cosetLeader : cosetLeaders) {
-            int[] syndrome = Matrix.multiplyByVector(matrixH, cosetLeader);//transponuotas
+            int[] syndrome = Matrix.multiplyByVectorT(matrixH, cosetLeader);
             syndromes.put(Vector.vectorToString(syndrome, ""), Vector.getWeight(syndrome));
         }
         return syndromes;

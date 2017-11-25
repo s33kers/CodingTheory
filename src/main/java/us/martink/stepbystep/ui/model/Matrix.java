@@ -56,7 +56,7 @@ public class Matrix {
         return rows.toString();
     }
 
-    public static int[] multiplyByVector(int[][] matrix, int[] vector) {
+    public static int[] multiplyByVectorT(int[][] matrix, int[] vector) {
         int[] multVector = new int[matrix[0].length];
         for (int i = 0; i < matrix.length; i++) {
             int sum = 0;
@@ -70,7 +70,7 @@ public class Matrix {
         return multVector;
     }
 
-    public static int[] multiplyByVectorT(int[][] matrix, int[] vector) {
+    public static int[] multiplyByVector(int[][] matrix, int[] vector) {
         int[] multVector = new int[matrix[0].length];
         for (int i = 0; i < matrix[0].length; i++) {
             int sum = 0;
