@@ -31,7 +31,7 @@ public class Decoder {
         List<List<int[]>> table = new ArrayList<>();
         table.add(codeWords);
 
-        for (int i = 0; i < Math.pow(2,n)/codeWords.size() - 1 ; i++) {
+        for (int i = 0; i < Math.pow(2,n)/codeWords.size() - 1; i++) {
             setCosetRow(table, n, codeWords.size());
         }
 
@@ -47,7 +47,7 @@ public class Decoder {
         while (weight != 0) {
             lastWeight = weight;
             encodedVector = Vector.changeVectorBit(encodedVector, position);
-            syndrome = Matrix.multiplyByVectorT(matrixH, encodedVector);//transponuotas
+            syndrome = Matrix.multiplyByVectorT(matrixH, encodedVector);
             syndromeText = Vector.vectorToString(syndrome, "");
             weight = syndromes.get(syndromeText);
 

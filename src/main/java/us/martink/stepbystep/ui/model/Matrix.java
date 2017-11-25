@@ -60,7 +60,7 @@ public class Matrix {
         if (vector.length != matrix[0].length) {
             throw new IllegalArgumentException();
         }
-        int[] multVector = new int[matrix[0].length];
+        int[] multVector = new int[matrix.length];
         for (int i = 0; i < matrix.length; i++) {
             int sum = 0;
             int[] row = matrix[i];
