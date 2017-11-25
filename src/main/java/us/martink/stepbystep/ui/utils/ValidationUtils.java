@@ -32,8 +32,8 @@ public class ValidationUtils {
             if (vector < 0) {
                 return "blogas vektorius";
             }
-            if (vectorRequest.getSimpleVector().getVectorText().length() != vectorRequest.getN()) {
-                return "vektoriaus ilgis turi būti lygus " + vectorRequest.getN();
+            if (vectorRequest.getSimpleVector().getVectorText().length() != vectorRequest.getK()) {
+                return "vektoriaus ilgis turi būti lygus " + vectorRequest.getK();
             }
             int[] simpleVector = new int[vectorRequest.getSimpleVector().getVectorText().length()];
             for (int i = 0; i < vectorRequest.getSimpleVector().getVectorText().length(); i++)

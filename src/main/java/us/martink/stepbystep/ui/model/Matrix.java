@@ -57,6 +57,9 @@ public class Matrix {
     }
 
     public static int[] multiplyByVectorT(int[][] matrix, int[] vector) {
+        if (vector.length != matrix[0].length) {
+            throw new IllegalArgumentException();
+        }
         int[] multVector = new int[matrix[0].length];
         for (int i = 0; i < matrix.length; i++) {
             int sum = 0;
@@ -71,6 +74,9 @@ public class Matrix {
     }
 
     public static int[] multiplyByVector(int[][] matrix, int[] vector) {
+        if (vector.length != matrix.length) {
+            throw new IllegalArgumentException();
+        }
         int[] multVector = new int[matrix[0].length];
         for (int i = 0; i < matrix[0].length; i++) {
             int sum = 0;

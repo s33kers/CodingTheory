@@ -8,6 +8,6 @@ import us.martink.stepbystep.ui.model.Matrix;
 public class Encoder {
 
     public static int[] encodeVector(int[][] matrix, int[] vector) {
-        return Matrix.multiplyByVectorT(matrix, vector);
+        return Matrix.multiplyByVector(matrix, vector);
     }
 }
