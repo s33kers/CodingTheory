@@ -24,7 +24,7 @@ public class VectorController {
 
     @RequestMapping("/vector")
     public String vector (Model model) {
-        model.addAttribute("requestVector", new VectorRequestForm());
+        model.addAttribute("requestForm", new VectorRequestForm());
         return "vector";
     }
 
@@ -33,7 +33,7 @@ public class VectorController {
         String validation = ValidationUtils.validateBeforeVectorEncoding(vectorRequest);
         if (validation != null) {
             model.addAttribute("validation", validation);
-            model.addAttribute("requestVector", vectorRequest);
+            model.addAttribute("requestForm", vectorRequest);
             return "vector";
         }
 
@@ -52,7 +52,7 @@ public class VectorController {
         vectorRequest.getTransferredVector().setVector(transferredVector);
         vectorRequest.getTransferredVector().setVectorText(Vector.vectorToString(transferredVector, ""));
 
-        model.addAttribute("requestVector", vectorRequest);
+        model.addAttribute("requestForm", vectorRequest);
         return "vector";
     }
 
@@ -61,7 +61,7 @@ public class VectorController {
         String validation = ValidationUtils.validateBeforeVectorDecoding(vectorRequest);
         if (validation != null) {
             model.addAttribute("validation", validation);
-            model.addAttribute("requestVector", vectorRequest);
+            model.addAttribute("requestForm", vectorRequest);
             return "vector";
         }
 
@@ -76,7 +76,7 @@ public class VectorController {
         vectorRequest.getDecodedVector().setVector(Decoder.decodeVector(vectorRequest.getMatrix(), vectorRequest.getTransferredVector()));
         vectorRequest.getDecodedVector().setVectorText(Vector.vectorToString(vectorRequest.getDecodedVector().getVector(), ""));
 
-        model.addAttribute("requestVector", vectorRequest);
+        model.addAttribute("requestForm", vectorRequest);
         return "vector";
     }
 }

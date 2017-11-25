@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Vektorius</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"/>
+
+</head>
+<body>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+
+<nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand" th:href="@{/}">Step by step decoding</a>
+        </div>
+        <ul class="nav navbar-nav">
+            <li class="active"><a th:href="@{/requestForm}">Vektorius</a></li>
+            <li><a th:href="@{/text}">Tekstas</a></li>
+            <li><a href="#">Paveikslelis</a></li>
+        </ul>
+    </div>
+</nav>
+
+<div class="container-fluid text-center">
+    <div class="row content">
+        <div class="col-sm-2 sidenav"></div>
+        <div class="col-sm-8 text-left">
+            <div th:if="${validation != null}" class="bg-danger text-white">
+                <h1>Bloga validacija</h1>
+                <p>
+                    <span th:text="${validation}"/>
+                </p>
+            </div>
+            <div>
+                <form method="post" th:object="${requestForm}">
+                    <h1>Kodo paramentrai</h1>
+                    <div class="form-group">
+                        <label for="n">Kodo dimensija(n):</label>
+                        <input class="form-control" id="n" th:field="${requestForm.nText}"/>
+                    </div>
+                    <div class="form-group">
+                        <label for="k">Kodo ilgis(k):</label>
+                        <input class="form-control" id="k" th:field="${requestForm.kText}"/>
+                    </div>
+                    <div class="form-group">
+                        <label for="p">Klaidos tikimybė:</label>
+                        <input class="form-control" id="p" th:field="${requestForm.pText}"/>
+                    </div>
+                    <div class="form-group">
+                        <label for="matrix">Generuojanti matrica (jei tuscia, bus sugeneruota atsitiktine):</label>
+                        <textarea class="form-control" style="min-width: 100%" id="matrix" rows="10" th:field="${requestForm.matrix.matrixText}"></textarea>
+                    </div>
+                    <h1>Tekstas</h1>
+                    <div class="form-group">
+                        <label for="enteredText">Įveskite tekstą</label>
+                        <textarea class="form-control" style="min-width: 100%" id="enteredText" rows="10" th:field="${requestForm.enteredText.textValue}"></textarea>
+                    </div>
+                    <div>
+                        <input type="submit" value="Siųsti" name="action" class="btn btn-default"/>
+                    </div>
+                </form>
+            </div>
+            <div th:if="${requestForm.encodedText != null}">
+                <h1>Gauti rezultatai</h1>
+                <div class="form-group">
+                    <label for="encodedText">Su kodavimu:</label>
+                    <textarea class="form-control" style="min-width: 100%" id="encodedText" rows="10" th:field="${requestForm.encodedText.textValue}"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="plainText">Be kodavimo:</label>
+                    <textarea class="form-control" style="min-width: 100%" id="plainText" rows="10" th:field="${requestForm.plainText.textValue}"></textarea>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-2 sidenav"></div>
+    </div>
+</div>
+
+<footer class="container-fluid text-center">
+</footer>
+</body>
+</html>
