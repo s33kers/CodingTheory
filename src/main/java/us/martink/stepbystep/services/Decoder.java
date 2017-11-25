@@ -107,7 +107,7 @@ public class Decoder {
         Map<String, Integer> syndromes = new HashMap<>();
         for (int[] cosetLeader : cosetLeaders) {
             int[] syndrome = Matrix.multiplyByVectorT(matrixH, cosetLeader);
-            syndromes.put(Vector.vectorToString(syndrome, ""), Vector.getWeight(syndrome));
+            syndromes.put(Vector.vectorToString(syndrome, ""), Vector.getWeight(cosetLeader));
         }
         return syndromes;
     }
