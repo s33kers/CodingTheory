@@ -37,24 +37,32 @@ public class Decoder {
      */
     public int[] decodeVector(int[] encodedVector) {
         //StepByStep dekodavimas
+        //dauginam vektorių iš kontrolinės matricos
         int[] syndrome = Matrix.multiplyByVectorT(matrixH, encodedVector);
         String syndromeText = Vector.vectorToString(syndrome, "");
+
+        //gauname svorį pagal gautą sindromą
         int weight = syndromes.get(syndromeText);
-        int position = 0;
+        int i = 0;
         int lastWeight;
 
+        //iteruojame kol svorį gausime 0, tada bus baigtas dekodavimas
         while (weight != 0) {
+            //priskiriame paskutinį svorį
             lastWeight = weight;
-            encodedVector = Vector.changeVectorBit(encodedVector, position);
+            //keičiame vektoriaus bitą pozicijoje i
+            encodedVector = Vector.changeVectorBit(encodedVector, i);
+
             syndrome = Matrix.multiplyByVectorT(matrixH, encodedVector);
             syndromeText = Vector.vectorToString(syndrome, "");
             weight = syndromes.get(syndromeText);
 
+            //jei svoris toks pat, atstatome pakeitą bitą
             if (weight >= lastWeight) {
-                Vector.changeVectorBit(encodedVector, position);
+                Vector.changeVectorBit(encodedVector, i);
                 weight = lastWeight;
             }
-            position++;
+            i++;
         }
 
         return Arrays.copyOfRange(encodedVector, 0, matrix.length);
