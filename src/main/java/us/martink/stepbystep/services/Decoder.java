@@ -30,6 +30,11 @@ public class Decoder {
         syndromes = calculateSyndromes(table, matrixH);
     }
 
+    /**
+     * Dekoduoja vektorių naudojant grandininio dekodavimo algoritmą
+     * @param encodedVector vektorius, kurį reikia dekoduoti
+     * @return dekoduotas vektorius
+     */
     public int[] decodeVector(int[] encodedVector) {
         //StepByStep dekodavimas
         int[] syndrome = Matrix.multiplyByVectorT(matrixH, encodedVector);
@@ -55,6 +60,11 @@ public class Decoder {
         return Arrays.copyOfRange(encodedVector, 0, matrix.length);
     }
 
+    /**
+     * Apskaičiuojama standartinė lentelė matricai
+     * @param matrix matrica, kurios standartinę lentelę reikia gauti
+     * @return standartinė lentelė
+     */
     private static List<List<int[]>> calculateStandardTable(int[][] matrix) {
         int k = matrix.length;
         int n = matrix[0].length;
@@ -73,20 +83,30 @@ public class Decoder {
         return table;
     }
 
+    /**
+     * Apskaičiuojamos klasės pagal kodus esančius lentelės table pradžioje
+     * @param table standartinė lentelė
+     * @param n kodo dimensija
+     * @param size klasės ilgis
+     */
     private static void setCosetRow(List<List<int[]>> table, int n, int size) {
+        //visas galimų kombinacijų skaičius
         int combinations = (int) Math.pow(2, n);
 
+        //iš standartinės lentelės gaunami visi jau panaudoti skaičiai dešimtainiame formate
         List<List<Integer>> takenNums = table.stream()
                 .map(coset -> coset.stream()
                         .map(x -> Integer.parseInt(Vector.vectorToString(x, ""), 2))
                         .collect(Collectors.toList()))
                 .collect(Collectors.toList());
 
+        //gaunami visi galimi dešimtainiai skaičiai
         List<Integer> allPossibleNumbers = new ArrayList<>();
         for (int i = 0; i < combinations; i++) {
             allPossibleNumbers.add(i);
         }
 
+        //iš visų galimų skaičių atimami jau panaudoti standartinėje lentelėje esantys skaičiai
         List<Integer> possNumbers = allPossibleNumbers.stream().filter((x) -> {
             for (List<Integer> row : takenNums) {
                 for (int i = 0; i < row.size(); i++) {
@@ -97,17 +117,21 @@ public class Decoder {
             return true;
         }).collect(Collectors.toList());
 
+        //atrinkti galimi skaičiai paverčiami į vektorius
         List<int[]> allPossibleVectors = possNumbers.stream()
                 .map(number -> Vector.intoBinaryArray(number, n))
                 .collect(Collectors.toList());
 
+        //išrikiuojami pagal svorius, pradedant mažiausiu
         allPossibleVectors.sort(Comparator.comparingInt(Vector::getWeight));
 
         List<int[]> coset = new ArrayList<>();
         List<int[]> firstCoset = table.get(0);
+        //paimamas pirmas vektorius, kuris bus klasės lyderiu
         int[] cosetLeader = allPossibleVectors.get(0);
         coset.add(cosetLeader);
 
+        //iteruojama tiek kartų kiek reikia klasėje žodžių. Klasės lyderis kiekvieną kartą sudedamas vis su kitu kodu ir patalpinamas lentelėje
         for (int i = 1; i < size; i++) {
             coset.add(Vector.addVectors(cosetLeader, firstCoset.get(i)));
         }
@@ -115,9 +139,17 @@ public class Decoder {
     }
 
 
+    /**
+     * Apskaičiuojami sindromai
+     * @param table standartinė lentelė
+     * @param matrixH kontrolinė matrica
+     * @return sindromai su jų svoriais
+     */
     private static Map<String, Integer> calculateSyndromes(List<List<int[]>> table, int[][] matrixH) {
+        //Iš standartinės lentelės atfilruojami klasių lyderiai
         List<int[]> cosetLeaders = table.stream().map(column -> column.get(0)).collect(Collectors.toList());
         Map<String, Integer> syndromes = new HashMap<>();
+        //iteruojama per visus klasių lyderius ir apskaičiuojamas jo sindromas, kuris su savo svoriu talpinamas sąraše
         for (int[] cosetLeader : cosetLeaders) {
             int[] syndrome = Matrix.multiplyByVectorT(matrixH, cosetLeader);
             syndromes.put(Vector.vectorToString(syndrome, ""), Vector.getWeight(cosetLeader));

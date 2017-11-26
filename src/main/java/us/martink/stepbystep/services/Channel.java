@@ -10,7 +10,12 @@ public class Channel {
 
     private static final int q = 2;
 
-    //grazina siusto vektoriaus per kanala su iskraipymo tikimybe p klaidu pozicijas
+    /**
+     * Imituoja vektoriaus vector siuntimą kanalu su klaidos tikimybe p. Esant klaidai bitas keičiamas į jam priešingą.
+     * @param p kalidos tikimybė
+     * @param vector siunčiamas vektorius, jis tiesiogiai keičiamas siuntimo metu
+     * @return Vektoriuje padarytų klaidų sąrašas
+     */
     public static List<Integer> sendThroughChannel(double p, int[] vector) {
         List<Integer> mistakes = new ArrayList<>();
 

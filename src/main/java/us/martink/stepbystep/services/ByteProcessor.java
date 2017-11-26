@@ -10,6 +10,13 @@ import java.math.BigInteger;
  */
 public class ByteProcessor {
 
+    /**
+     * Užkoduoja bytes su matrix, siunčia kanalu su tikimybe p, atkoduoja gautą rezultatą, kurį ir gražina
+     * @param matrix - matrica
+     * @param p - klaidos tikimybė
+     * @param bytes - baitai, kurie turi būti siunčiami
+     * @return gautas atkoduotas rezultatas
+     */
     public static byte[] withEncoding(Matrix matrix, double p, byte[] bytes) {
         //bitai paverciamas i binary ir i teksta
         String binary = getTextBinary(bytes);
@@ -40,6 +47,13 @@ public class ByteProcessor {
         return new BigInteger(stringBuilder.toString(), 2).toByteArray();
     }
 
+    /**
+     * Baitus siunčia kanalu su tikimybe p ir gautą rezultatą gražina
+     * @param matrix - matrica
+     * @param p - klaidos tikimybė
+     * @param bytes - baitai, kurie turi būti siunčiami
+     * @return gautas rezultatas
+     */
     public static byte[] withoutEncoding(Matrix matrix, double p, byte[] bytes) {
         //bitai paverciamas i binary ir i teksta
         String binary = getTextBinary(bytes);
@@ -68,7 +82,12 @@ public class ByteProcessor {
         return new BigInteger(stringBuilder.toString(), 2).toByteArray();
     }
 
-    //Jei binary teksto ilgis neatitinka kodo ilgio prideti papildomus 0 gale
+    /**
+     * Tikrina ar bitai yra reikiamo ilgio - galima bus suskaidyti į vienodus k ilgio vektorius. Jei ne - gale prirašo tiek kiek trūksta 0.
+     * @param binary bitų seka
+     * @param k kodo ilgis
+     * @return tinkamo ilgio bitų seka
+     */
     private static String correctBinaryLength(String binary, int k) {
         int vectorLengthLeft = binary.length() % k;
         StringBuilder stringBuilder = new StringBuilder();
@@ -78,7 +97,11 @@ public class ByteProcessor {
         return binary + stringBuilder.toString();
     }
 
-    //Teksta paversti i binary
+    /**
+     * Iš baitų gauna bitų seką teksto pavidalu
+     * @param bytes baitų seka
+     * @return bitai teksto pavidale
+     */
     private static String getTextBinary(byte[] bytes) {
         StringBuilder binary = new StringBuilder();
         for (byte b : bytes)

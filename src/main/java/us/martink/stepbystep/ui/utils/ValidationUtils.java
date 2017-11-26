@@ -53,11 +53,6 @@ public class ValidationUtils {
         } else {
             return "vektorius yra privalomas";
         }
-
-        validate = validateMatrix(vectorRequest);
-        if (validate != null) {
-            return validate;
-        }
         return null;
     }
 
@@ -67,9 +62,8 @@ public class ValidationUtils {
             return validate;
         }
 
-        validate = validateMatrix(textRequest);
-        if (validate != null) {
-            return validate;
+        if (StringUtils.isEmpty(textRequest.getEnteredText().getTextValue())) {
+            return "Tekstas yra privalomas";
         }
         return null;
     }
@@ -77,11 +71,6 @@ public class ValidationUtils {
 
     public static String validateBeforePhotoSend(PhotoRequestForm vectorRequest) {
         String validate = validateBasic(vectorRequest);
-        if (validate != null) {
-            return validate;
-        }
-
-        validate = validateMatrix(vectorRequest);
         if (validate != null) {
             return validate;
         }
@@ -152,6 +141,12 @@ public class ValidationUtils {
         } else {
             return "n yra privalomas";
         }
+
+        String validate = validateMatrix(requestForm);
+        if (validate != null) {
+            return validate;
+        }
+
         return null;
     }
 

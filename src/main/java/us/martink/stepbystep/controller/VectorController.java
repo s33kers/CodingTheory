@@ -32,6 +32,10 @@ public class VectorController {
     public String encode(@ModelAttribute VectorRequestForm vectorRequest, Model model) {
         String validation = ValidationUtils.validateBeforeVectorEncoding(vectorRequest);
         if (validation != null) {
+            vectorRequest.setDecodedVector(null);
+            vectorRequest.setTransferredVector(null);
+            vectorRequest.setMistakes(null);
+            vectorRequest.setEncodedVector(null);
             model.addAttribute("validation", validation);
             model.addAttribute("requestForm", vectorRequest);
             return "vector";
