@@ -23,7 +23,8 @@ public class ByteProcessor {
 
         //kodo ilgis
         int k = matrix.getMatrix().length;
-        binary = correctBinaryLength(binary, k);
+        int vectorLengthLeft = binary.length() % k;
+        binary = correctBinaryLength(binary, vectorLengthLeft);
 
         StringBuilder stringBuilder = new StringBuilder();
         int index = 0;
@@ -42,9 +43,13 @@ public class ByteProcessor {
             stringBuilder.append(Vector.vectorToString(decodeVector, ""));
             index += k;
         }
+        String result = stringBuilder.toString();
+        if (vectorLengthLeft != 0) {
+            result = result.substring(0, result.length()-vectorLengthLeft);
+        }
 
         //visas gautas rezultatas konvertuojamas is binary i byte
-        return new BigInteger(stringBuilder.toString(), 2).toByteArray();
+        return new BigInteger(result, 2).toByteArray();
     }
 
     /**
@@ -60,7 +65,8 @@ public class ByteProcessor {
 
         //kodo ilgis
         int k = matrix.getMatrix().length;
-        binary = correctBinaryLength(binary, k);
+        int vectorLengthLeft = binary.length() % k;
+        binary = correctBinaryLength(binary, vectorLengthLeft);
 
         StringBuilder stringBuilder = new StringBuilder();
         int index = 0;
@@ -77,19 +83,22 @@ public class ByteProcessor {
             stringBuilder.append(Vector.vectorToString(vector, ""));
             index += k;
         }
+        String result = stringBuilder.toString();
+        if (vectorLengthLeft != 0) {
+            result = result.substring(0, result.length()-vectorLengthLeft);
+        }
 
         //visas gautas rezultatas konvertuojamas is binary i byte
-        return new BigInteger(stringBuilder.toString(), 2).toByteArray();
+        return new BigInteger(result, 2).toByteArray();
     }
 
     /**
      * Tikrina ar bitai yra reikiamo ilgio - galima bus suskaidyti į vienodus k ilgio vektorius. Jei ne - gale prirašo tiek kiek trūksta 0.
      * @param binary bitų seka
-     * @param k kodo ilgis
+     * @param vectorLengthLeft kiek reikia pataisyti bitu
      * @return tinkamo ilgio bitų seka
      */
-    private static String correctBinaryLength(String binary, int k) {
-        int vectorLengthLeft = binary.length() % k;
+    private static String correctBinaryLength(String binary, int vectorLengthLeft) {
         StringBuilder stringBuilder = new StringBuilder();
         for (int i = 0; i < vectorLengthLeft; i++) {
             stringBuilder.append("0");
