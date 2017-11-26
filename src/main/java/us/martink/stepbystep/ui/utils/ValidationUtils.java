@@ -2,6 +2,7 @@ package us.martink.stepbystep.ui.utils;
 
 import org.apache.commons.lang3.StringUtils;
 import us.martink.stepbystep.ui.model.Matrix;
+import us.martink.stepbystep.ui.model.PhotoRequestForm;
 import us.martink.stepbystep.ui.model.RequestForm;
 import us.martink.stepbystep.ui.model.TextRequestForm;
 import us.martink.stepbystep.ui.model.VectorRequestForm;
@@ -58,13 +59,27 @@ public class ValidationUtils {
         return null;
     }
 
-    public static String validateBeforeTextEncoding(TextRequestForm textRequest) {
+    public static String validateBeforeTextSend(TextRequestForm textRequest) {
         String validate = validateBasic(textRequest);
         if (validate != null) {
             return validate;
         }
 
         validate = validateMatrix(textRequest);
+        if (validate != null) {
+            return validate;
+        }
+        return null;
+    }
+
+
+    public static String validateBeforePhotoSend(PhotoRequestForm vectorRequest) {
+        String validate = validateBasic(vectorRequest);
+        if (validate != null) {
+            return validate;
+        }
+
+        validate = validateMatrix(vectorRequest);
         if (validate != null) {
             return validate;
         }

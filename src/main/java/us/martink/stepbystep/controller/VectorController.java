@@ -1,4 +1,4 @@
-package us.martink.stepbystep.ui;
+package us.martink.stepbystep.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -73,8 +73,9 @@ public class VectorController {
         vectorRequest.getTransferredVector().setVector(Vector.textToVector(vectorRequest.getTransferredVector().getVectorText()));
 
         //Gautas vektorius atkoduojamas
+        Decoder decoder = new Decoder(vectorRequest.getMatrix());
         vectorRequest.setDecodedVector(new Vector());
-        vectorRequest.getDecodedVector().setVector(Decoder.decodeVector(vectorRequest.getMatrix(), vectorRequest.getTransferredVector().getVector()));
+        vectorRequest.getDecodedVector().setVector(decoder.decodeVector(vectorRequest.getTransferredVector().getVector()));
         vectorRequest.getDecodedVector().setVectorText(Vector.vectorToString(vectorRequest.getDecodedVector().getVector(), ""));
 
         model.addAttribute("requestForm", vectorRequest);

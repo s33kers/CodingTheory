@@ -1,4 +1,4 @@
-package us.martink.stepbystep.ui;
+package us.martink.stepbystep.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -25,7 +25,7 @@ public class TextController {
 
     @RequestMapping(value="/text", method= RequestMethod.POST)
     public String send(@ModelAttribute TextRequestForm vectorRequest, Model model) {
-        String validation = ValidationUtils.validateBeforeTextEncoding(vectorRequest);
+        String validation = ValidationUtils.validateBeforeTextSend(vectorRequest);
         if (validation != null) {
             model.addAttribute("validation", validation);
             model.addAttribute("requestForm", vectorRequest);

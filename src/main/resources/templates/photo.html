@@ -15,9 +15,9 @@
             <a class="navbar-brand" th:href="@{/}">Step by step decoding</a>
         </div>
         <ul class="nav navbar-nav">
-            <li class="active"><a th:href="@{/vector}">Vektorius</a></li>
+            <li><a th:href="@{/vector}">Vektorius</a></li>
             <li><a th:href="@{/text}">Tekstas</a></li>
-            <li><a th:href="@{/photo}">Paveikslėlis</a></li>
+            <li class="active"><a th:href="@{/photo}">Paveikslėlis</a></li>
         </ul>
     </div>
 </nav>
@@ -29,11 +29,11 @@
             <div th:if="${validation != null}" class="bg-danger text-white">
                 <h1>Bloga validacija</h1>
                 <p>
-                   <span th:text="${validation}"/>
+                    <span th:text="${validation}"/>
                 </p>
             </div>
             <div>
-                <form method="post" th:object="${requestForm}">
+                <form method="post" th:action="@{/photoUpload}" enctype="multipart/form-data">
                     <h1>Kodo paramentrai</h1>
                     <div class="form-group">
                         <label for="n">Kodo dimensija(n):</label>
@@ -51,43 +51,28 @@
                         <label for="matrix">Generuojanti matrica (jei tuscia, bus sugeneruota atsitiktine):</label>
                         <textarea class="form-control" style="min-width: 100%" id="matrix" rows="10" th:field="${requestForm.matrix.matrixText}"/>
                     </div>
-                    <h1>Vektorius</h1>
+                    <h1>Paveikslėlis</h1>
                     <div class="form-group">
-                        <label for="vector">Įveskite k ilgio vektorių:</label>
-                        <input class="form-control" id="vector" th:field="${requestForm.simpleVector.vectorText}"/>
+                        <input type="file" name="myFile" />
                     </div>
                     <div>
-                        <input type="submit" value="Užkoduoti" name="action" class="btn btn-default"/>
-                    </div>
-                    <div th:if="${requestForm.encodedVector != null}">
-                        <h1>Užkodavimo rezultatai</h1>
-                        <div class="form-group">
-                            <label for="vectorText">Užkoduotas vektorius:</label>
-                            <input class="form-control" id="vectorText" th:field="${requestForm.encodedVector.vectorText}"/>
-                        </div>
-                        <div class="form-group">
-                            <label for="transferredText">Iš kanalo gautas vektorius:</label>
-                            <input class="form-control" id="transferredText" th:field="${requestForm.transferredVector.vectorText}"/>
-                        </div>
-                        <div class="form-group">
-                            <label for="mistakesCount">Klaidų skaičius:</label>
-                            <input class="form-control" id="mistakesCount" th:field="${requestForm.mistakes.vectorSize}"/>
-                        </div>
-                        <div class="form-group">
-                            <label for="mistakes">Klaidų pozicijos:</label>
-                            <input class="form-control" id="mistakes" th:field="${requestForm.mistakes.vectorText}"/>
-                        </div>
-                        <div>
-                            <input type="submit" value="Dekoduoti" name="action" class="btn btn-default"/>
-                        </div>
+                        <input type="submit" value="Siųsti" name="action" class="btn btn-default"/>
                     </div>
                 </form>
             </div>
-            <div th:if="${requestForm.decodedVector != null}">
-                <h1>Dekodavimo rezultatai</h1>
+            <div th:if="${requestForm.done}">
+                <h1>Gauti rezultatai</h1>
                 <div class="form-group">
-                    <label for="vectorText">Dekoduotas vektorius:</label>
-                    <input class="form-control" id="vectorText" th:field="${requestForm.decodedVector.vectorText}"/>
+                    <label >Orginalus:</label>
+                    <img th:src="@{/image/1}" />
+                </div>
+                <div class="form-group">
+                    <label >Su kodavimu:</label>
+                    <img th:src="@{/image/2}" />
+                </div>
+                <div class="form-group">
+                    <label >Be kodavimo:</label>
+                    <img th:src="@{/image/3}" />
                 </div>
             </div>
         </div>

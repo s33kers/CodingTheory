@@ -16,16 +16,21 @@ import java.util.stream.Collectors;
  */
 public class Decoder {
 
-    public static int[] decodeVector(Matrix matrixG, int[] encodedVector) {
-        int[][] matrix = matrixG.getMatrix();
+    private Map<String, Integer> syndromes;
+    private int[][] matrix;
+    private int[][] matrixH;
 
+    public Decoder(Matrix matrixG) {
+        matrix = matrixG.getMatrix();
         //Matricai sukuriama jos kontroline matrica
-        int[][] matrixH = matrixG.createParityCheckMatrix();
+        matrixH = matrixG.createParityCheckMatrix();
         //Matricai gaunama jos standartine lentele
         List<List<int[]>> table = calculateStandardTable(matrix);
         //Gaunami sidromai
-        Map<String, Integer> syndromes = calculateSyndromes(table, matrixH);
+        syndromes = calculateSyndromes(table, matrixH);
+    }
 
+    public int[] decodeVector(int[] encodedVector) {
         //StepByStep dekodavimas
         int[] syndrome = Matrix.multiplyByVectorT(matrixH, encodedVector);
         String syndromeText = Vector.vectorToString(syndrome, "");
