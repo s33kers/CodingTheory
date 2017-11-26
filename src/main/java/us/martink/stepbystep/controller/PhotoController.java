@@ -17,6 +17,7 @@ import us.martink.stepbystep.ui.model.PhotoRequestForm;
 import us.martink.stepbystep.ui.utils.ValidationUtils;
 
 import java.io.IOException;
+import java.util.Arrays;
 
 /**
  * Created by tadas.
@@ -59,15 +60,18 @@ public class PhotoController {
     public ResponseEntity<byte[]> getImage(@PathVariable("image_id") int imageId) throws IOException {
 
         byte[] imageContent = null;
+        byte[] result = null;
         switch (imageId) {
             case 1:
                 imageContent = image;
                 break;
             case 2:
-                imageContent = ByteProcessor.withEncoding(photoRequestForm.getMatrix(), photoRequestForm.getP(), image);
+                result = ByteProcessor.withEncoding(photoRequestForm.getMatrix(), photoRequestForm.getP(), image);
+                imageContent = Arrays.copyOfRange(result, 1, result.length);
                 break;
             case 3:
-                imageContent = ByteProcessor.withoutEncoding(photoRequestForm.getMatrix(), photoRequestForm.getP(), image);
+                result = ByteProcessor.withoutEncoding(photoRequestForm.getMatrix(), photoRequestForm.getP(), image);
+                imageContent = Arrays.copyOfRange(result, 1, result.length);
                 break;
         }
 

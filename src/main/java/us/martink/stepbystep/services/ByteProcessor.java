@@ -54,13 +54,13 @@ public class ByteProcessor {
         //iteruojama per visa teksto binary seka
         while (index < binary.length()) {
             //is binary sekos imamas atitinkamo kodo ilgio k vektorius
-            String vector = binary.substring(index, Math.min(index + k, binary.length()));
+            String vectorText = binary.substring(index, Math.min(index + k, binary.length()));
             //Binary vektorius teksto pavidalu paverciamas i skaiciu masyvo pavidala
-            int[] encodedVector = Vector.textToVector(vector);
+            int[] vector = Vector.textToVector(vectorText);
             //vektorius siunciamas kanalu su klaidos tikimybe p
-            Channel.sendThroughChannel(p, encodedVector);
+            Channel.sendThroughChannel(p, vector);
             //gautas vektorius skaiciu masyvo pavidalu paverciamas i teksto pavidala
-            stringBuilder.append(Vector.vectorToString(encodedVector, ""));
+            stringBuilder.append(Vector.vectorToString(vector, ""));
             index += k;
         }
 
