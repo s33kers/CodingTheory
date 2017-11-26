@@ -32,9 +32,12 @@ public class TextController {
             return "text";
         }
 
+        //Tekstas siunciamas su kodavimu
         String withEncoding = TextProcessor.withEncoding(vectorRequest.getMatrix(), vectorRequest.getP(), vectorRequest.getEnteredText().getTextValue());
-        String withoutEncoding = TextProcessor.withoutEncoding(vectorRequest.getMatrix(), vectorRequest.getP(), vectorRequest.getEnteredText().getTextValue());
         vectorRequest.setEncodedText(new Text(withEncoding));
+
+        //Tekstas siunciamas be kodavimo
+        String withoutEncoding = TextProcessor.withoutEncoding(vectorRequest.getMatrix(), vectorRequest.getP(), vectorRequest.getEnteredText().getTextValue());
         vectorRequest.setPlainText(new Text(withoutEncoding));
 
         model.addAttribute("requestForm", vectorRequest);

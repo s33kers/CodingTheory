@@ -18,26 +18,15 @@ public class Decoder {
 
     public static int[] decodeVector(Matrix matrixG, int[] encodedVector) {
         int[][] matrix = matrixG.getMatrix();
-        int k = matrix.length;
-        int n = matrix[0].length;
 
+        //Matricai sukuriama jos kontroline matrica
         int[][] matrixH = matrixG.createParityCheckMatrix();
-        List<int[]> codeWords = new ArrayList<>();
-        int length = (int) Math.pow(2, k);
-        for (int i = 0; i < length; i++) {
-            codeWords.add(Matrix.multiplyByVector(matrix, Vector.intoBinaryArray(i, k)));
-        }
-
-        List<List<int[]>> table = new ArrayList<>();
-        table.add(codeWords);
-
-        for (int i = 0; i < Math.pow(2,n)/codeWords.size() - 1; i++) {
-            setCosetRow(table, n, codeWords.size());
-        }
-
+        //Matricai gaunama jos standartine lentele
+        List<List<int[]>> table = calculateStandardTable(matrix);
+        //Gaunami sidromai
         Map<String, Integer> syndromes = calculateSyndromes(table, matrixH);
 
-        //decoding
+        //StepByStep dekodavimas
         int[] syndrome = Matrix.multiplyByVectorT(matrixH, encodedVector);
         String syndromeText = Vector.vectorToString(syndrome, "");
         int weight = syndromes.get(syndromeText);
@@ -58,7 +47,25 @@ public class Decoder {
             position++;
         }
 
-        return Arrays.copyOfRange(encodedVector, 0, k);
+        return Arrays.copyOfRange(encodedVector, 0, matrix.length);
+    }
+
+    private static List<List<int[]>> calculateStandardTable(int[][] matrix) {
+        int k = matrix.length;
+        int n = matrix[0].length;
+        List<int[]> codeWords = new ArrayList<>();
+        int length = (int) Math.pow(2, k);
+        for (int i = 0; i < length; i++) {
+            codeWords.add(Matrix.multiplyByVector(matrix, Vector.intoBinaryArray(i, k)));
+        }
+
+        List<List<int[]>> table = new ArrayList<>();
+        table.add(codeWords);
+
+        for (int i = 0; i < Math.pow(2,n)/codeWords.size() - 1; i++) {
+            setCosetRow(table, n, codeWords.size());
+        }
+        return table;
     }
 
     private static void setCosetRow(List<List<int[]>> table, int n, int size) {

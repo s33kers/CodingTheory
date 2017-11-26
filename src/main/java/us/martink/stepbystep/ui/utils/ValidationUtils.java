@@ -100,7 +100,7 @@ public class ValidationUtils {
             }
         } else {
             matrix.setMatrix(Matrix.generateRandomMatrix(requestForm.getN(), requestForm.getK()));
-            matrix.setMatrixText(Matrix.matrixToString(matrix.getMatrix()));
+            matrix.setMatrixText(Matrix.matrixToText(matrix.getMatrix()));
         }
         return null;
     }

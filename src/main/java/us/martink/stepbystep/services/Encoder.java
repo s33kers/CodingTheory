@@ -7,6 +7,7 @@ import us.martink.stepbystep.ui.model.Matrix;
  */
 public class Encoder {
 
+    //vektoriaus uzkodavimas su matrica
     public static int[] encodeVector(int[][] matrix, int[] vector) {
         return Matrix.multiplyByVector(matrix, vector);
     }

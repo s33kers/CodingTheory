@@ -37,12 +37,12 @@ public class VectorController {
             return "vector";
         }
 
-        //encode vector
+        //Uzkoduojamas vektorius
         vectorRequest.setEncodedVector(new Vector());
         vectorRequest.getEncodedVector().setVector(Encoder.encodeVector(vectorRequest.getMatrix().getMatrix(), vectorRequest.getSimpleVector().getVector()));
         vectorRequest.getEncodedVector().setVectorText(Vector.vectorToString(vectorRequest.getEncodedVector().getVector(), ""));
 
-        //transfer vector
+        //Siunciamas vektorius kanalu
         int[] transferredVector = vectorRequest.getEncodedVector().getVector().clone();
         vectorRequest.setMistakes(new Vector());
         List<Integer> mistakesList = Channel.sendThroughChannel(vectorRequest.getP(), transferredVector);
@@ -65,13 +65,14 @@ public class VectorController {
             return "vector";
         }
 
-        //recreate from request
+        //Perkuriami gauti teksto pavidalo duomenys
         vectorRequest.getMatrix().setMatrix(Matrix.textToMatrix(vectorRequest.getMatrix().getMatrixText(), vectorRequest.getK(), vectorRequest.getN()));
         vectorRequest.getSimpleVector().setVector(Vector.textToVector(vectorRequest.getSimpleVector().getVectorText()));
         vectorRequest.getMistakes().setVector(Vector.textToVector(vectorRequest.getMistakes().getVectorText()));
         vectorRequest.getEncodedVector().setVector(Vector.textToVector(vectorRequest.getEncodedVector().getVectorText()));
         vectorRequest.getTransferredVector().setVector(Vector.textToVector(vectorRequest.getTransferredVector().getVectorText()));
 
+        //Gautas vektorius atkoduojamas
         vectorRequest.setDecodedVector(new Vector());
         vectorRequest.getDecodedVector().setVector(Decoder.decodeVector(vectorRequest.getMatrix(), vectorRequest.getTransferredVector().getVector()));
         vectorRequest.getDecodedVector().setVectorText(Vector.vectorToString(vectorRequest.getDecodedVector().getVector(), ""));
