@@ -20,7 +20,9 @@ public class ValidationUtils {
             return validate;
         }
 
-        //TODO
+        if (vectorRequest.getTransferredVector().getVectorText().length() != vectorRequest.getMatrix().getMatrix()[0].length) {
+            return "Blogas vektoriaus gauto iš kanalo ilgis";
+        }
         return null;
     }
 

@@ -22,13 +22,13 @@ import java.util.List;
 @Controller
 public class VectorController {
 
-    @RequestMapping("/vector")
+    @RequestMapping({"/", "/vector"})
     public String vector (Model model) {
         model.addAttribute("requestForm", new VectorRequestForm());
         return "vector";
     }
 
-    @RequestMapping(value="/vector", method= RequestMethod.POST, params="action=Užkoduoti")
+    @RequestMapping(value={"/", "/vector"}, method= RequestMethod.POST, params="action=Užkoduoti")
     public String encode(@ModelAttribute VectorRequestForm vectorRequest, Model model) {
         String validation = ValidationUtils.validateBeforeVectorEncoding(vectorRequest);
         if (validation != null) {
@@ -56,7 +56,7 @@ public class VectorController {
         return "vector";
     }
 
-    @RequestMapping(value="/vector", method= RequestMethod.POST, params="action=Dekoduoti")
+    @RequestMapping(value={"/", "/vector"}, method= RequestMethod.POST, params="action=Dekoduoti")
     public String decode(@ModelAttribute VectorRequestForm vectorRequest, Model model) {
         String validation = ValidationUtils.validateBeforeVectorDecoding(vectorRequest);
         if (validation != null) {

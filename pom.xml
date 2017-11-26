@@ -6,7 +6,7 @@
 	<groupId>us.martink</groupId>
 	<artifactId>stepbystep</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<packaging>war</packaging>
+	<packaging>jar</packaging>
 
 	<name>stepbystep</name>
 	<description>Coding theory algorythm for step bny step decoding</description>
