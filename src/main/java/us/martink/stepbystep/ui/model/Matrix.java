@@ -29,7 +29,12 @@ public class Matrix {
         this.matrix = matrix;
     }
 
-    //Atsitiktine matrica standartiniu pavidalu
+    /**
+     * Atsitiktine matrica standartiniu pavidalu
+     * @param n kodo dimensija
+     * @param k kodi ilgis
+     * @return sugeneruota matrica
+     */
     public static int[][] generateRandomMatrix(int n, int k) {
         int[][] matrix = new int[k][n];
         for (int i = 0; i < k; i++) {
@@ -45,13 +50,18 @@ public class Matrix {
         return matrix;
     }
 
-    //Matricos daugyba is vektoriaus
+    /**
+     * Matricos daugyba is vektoriaus
+     * @param matrix matrica
+     * @param vector vektorius
+     * @return rezultatas
+     */
     public static int[] multiplyByVectorT(int[][] matrix, int[] vector) {
         //Tikriname ar masyvo ilgis atitinka su vektoriaus ilgiu
         if (vector.length != matrix[0].length) {
             throw new IllegalArgumentException();
         }
-        int[] multVector = new int[matrix.length];
+        int[] result = new int[matrix.length];
         //iteruojama per matricos eilutes
         for (int i = 0; i < matrix.length; i++) {
             int sum = 0;
@@ -61,19 +71,24 @@ public class Matrix {
                 sum += row[j]*vector[j];
             }
             sum = sum % q;
-            multVector[i] = sum;
+            result[i] = sum;
         }
 
-        return multVector;
+        return result;
     }
 
-    //Matricos daugyba is vektoriaus
+    /**
+     * Matricos daugyba is vektoriaus
+     * @param matrix matrica
+     * @param vector vektorius
+     * @return rezultatas
+     */
     public static int[] multiplyByVector(int[][] matrix, int[] vector) {
         //Tikriname ar masyvo dimencija atitinka su vektoriaus ilgiu
         if (vector.length != matrix.length) {
             throw new IllegalArgumentException();
         }
-        int[] multVector = new int[matrix[0].length];
+        int[] result = new int[matrix[0].length];
         //iteruojame per matricos stulpelius
         for (int i = 0; i < matrix[0].length; i++) {
             int sum = 0;
@@ -84,13 +99,16 @@ public class Matrix {
                 sum += row[i]*vector[j];
             }
             sum = sum % q;
-            multVector[i] = sum;
+            result[i] = sum;
         }
 
-        return multVector;
+        return result;
     }
 
-    //Kontrolines matricos sukurimas
+    /**
+     * Kontrolinės matricos sukūrimas
+     * @return kontrolinė matrica
+     */
     public int[][] createParityCheckMatrix() {
         int k = matrix.length;
         int n = matrix[0].length;
@@ -126,6 +144,11 @@ public class Matrix {
         return newMatrix;
     }
 
+    /**
+     * Matricos pavertimas į tekstinį pavidalą
+     * @param matrix matrica
+     * @return matrica tekstiniame pavidale
+     */
     public static String matrixToText(int[][] matrix) {
         StringJoiner rows = new StringJoiner("\n");
         for (int[] aMatrix : matrix) {
@@ -138,6 +161,13 @@ public class Matrix {
         return rows.toString();
     }
 
+    /**
+     * Teksto pavertimas i matricą
+     * @param matrixText matrica teksto pavidalu
+     * @param k kodo dimensija
+     * @param n kodo ilgis
+     * @return matrica
+     */
     public static int[][] textToMatrix(String matrixText, int k, int n) {
         int[][] matrix =  new int[k][n];
         String[] matrixRows = matrixText.split("\n");

@@ -7,9 +7,6 @@ public class Text {
 
     private String textValue;
 
-    public Text() {
-    }
-
     public Text(String textValue) {
         this.textValue = textValue;
     }

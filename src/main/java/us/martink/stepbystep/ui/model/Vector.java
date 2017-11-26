@@ -32,6 +32,12 @@ public class Vector {
         return vector.length;
     }
 
+    /**
+     * Vektoriaus vertimas į tekstinį pavidalą
+     * @param vector vektorius
+     * @param regex vektoriaus elementų atskiriamasis bruožas
+     * @return vektorius teksto pavidale
+     */
     public static String vectorToString(int[] vector, String regex) {
         StringJoiner stringJoiner = new StringJoiner(regex);
         for (int i : vector) {
@@ -40,6 +46,11 @@ public class Vector {
         return stringJoiner.toString();
     }
 
+    /**
+     * Teksto vertimas į vektorių
+     * @param vectorText tekstas
+     * @return vektorius
+     */
     public static int[] textToVector(String vectorText) {
         int[] vector = new int[vectorText.length()];
         for (int i = 0; i < vectorText.length(); i++)
@@ -50,6 +61,11 @@ public class Vector {
         return vector;
     }
 
+    /**
+     * Vektoriaus svoris
+     * @param vector vektorius
+     * @return vektoriaus svoris
+     */
     public static int getWeight(int[] vector) {
         int weight = 0;
         for (int i : vector) {
@@ -60,6 +76,12 @@ public class Vector {
         return weight;
     }
 
+    /**
+     * Vektorių sudėtis
+     * @param vector1 pirmas vektorius
+     * @param vector2 antras vektorius
+     * @return sudėtas vektorius
+     */
     public static int[] addVectors(int[] vector1, int[] vector2) {
         int[] result = new int[vector1.length];
         if (vector1.length == vector2.length) {
@@ -70,6 +92,12 @@ public class Vector {
         return result;
     }
 
+    /**
+     * Dešimtainis skaičius į vektorių. Pavertus į bitus, jei reikia pridedama priekyje tiek nulių, kad vektoriaus skaičių būtų size
+     * @param number skaičius
+     * @param size norimas vektoriaus ilgis
+     * @return vektorius
+     */
     public static int[] intoBinaryArray(int number, int size) {
         String variable = Integer.toBinaryString(number);
         StringBuilder stringBuilder = new StringBuilder();
@@ -80,6 +108,12 @@ public class Vector {
         return Vector.textToVector(stringBuilder.toString());
     }
 
+    /**
+     * Vektoriaus bito keitimas į jo priešingą
+     * @param vector vektorius
+     * @param position bito pozicija vektoriuje
+     * @return pakeistas vektorius
+     */
     public static int[] changeVectorBit(int[] vector, int position){
         if(position < vector.length){
             vector[position] = (vector[position] + 1) % q;

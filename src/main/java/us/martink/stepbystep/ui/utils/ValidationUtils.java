@@ -35,23 +35,22 @@ public class ValidationUtils {
         if (StringUtils.isNoneBlank(vectorRequest.getSimpleVector().getVectorText())) {
             int vector = getInteger(vectorRequest.getnText());
             if (vector < 0) {
-                return "blogas vektorius";
+                return "Blogas vektorius";
             }
             if (vectorRequest.getSimpleVector().getVectorText().length() != vectorRequest.getK()) {
-                return "vektoriaus ilgis turi būti lygus " + vectorRequest.getK();
+                return "Vektoriaus ilgis turi būti " + vectorRequest.getK();
             }
             int[] simpleVector = new int[vectorRequest.getSimpleVector().getVectorText().length()];
-            for (int i = 0; i < vectorRequest.getSimpleVector().getVectorText().length(); i++)
-            {
+            for (int i = 0; i < vectorRequest.getSimpleVector().getVectorText().length(); i++) {
                 int value = vectorRequest.getSimpleVector().getVectorText().charAt(i) - '0';
                 if (value != 0 && value != 1) {
-                    return "vektorius turi būti sudarytas iš kūno q = 2 elementų. (0 ir 1)";
+                    return "Vektorius turi būti sudarytas iš kūno q = 2 elementų. (0 arba 1)";
                 }
                 simpleVector[i] = value;
             }
             vectorRequest.getSimpleVector().setVector(simpleVector);
         } else {
-            return "vektorius yra privalomas";
+            return "Vektorius yra privalomas";
         }
         return null;
     }
@@ -91,17 +90,12 @@ public class ValidationUtils {
                 String[] rowValues = matrixRow.split(" ");
                 int[] matrixRowValues = Arrays.stream(rowValues).mapToInt(value -> Integer.parseInt(value.trim())).filter(value -> value == 0 || value == 1).toArray();
                 if (matrixRowValues.length != rowValues.length) {
-                    return "Neteisingas matricos formatas. Eilutė: " + i;
+                    return "Neteisinga matrica. Eilutė: " + i;
                 }
                 if (matrixRowValues.length != requestForm.getN()) {
                     return "Stulpelių skaičius turi būti lygus n. Eilutė: " + i;
                 }
 
-//                for (int j = 0; j < requestForm.getN(); j++) {
-//                    if ((j == i && matrixRowValues[j] != 1) || (j != i && matrixRowValues[j] != 0)) {
-//                        return "Matrica turi būti standartinio pavidalo. Eilutė: " + i + " Stulpelis: " + j;
-//                    }
-//                }
                 matrix.getMatrix()[i] = matrixRowValues;
             }
         } else {
@@ -115,7 +109,7 @@ public class ValidationUtils {
         if (StringUtils.isNoneBlank(requestForm.getpText())) {
             double p = getDouble(requestForm.getpText());
             if (p > 1 || p < 0) {
-                return "p turi būti tarp 0 ir 1";
+                return "p turi būti intervale [0,1]";
             }
             requestForm.setP(p);
         } else {
@@ -153,7 +147,7 @@ public class ValidationUtils {
     private static int getInteger(String s) {
         try {
             return Integer.parseInt(s);
-        } catch(NumberFormatException e) {
+        } catch (NumberFormatException e) {
             return -1;
         }
     }
@@ -161,7 +155,7 @@ public class ValidationUtils {
     private static double getDouble(String s) {
         try {
             return Double.parseDouble(s);
-        } catch(NumberFormatException e) {
+        } catch (NumberFormatException e) {
             return -1;
         }
     }
