@@ -93,22 +93,21 @@ public class Decoder {
         //visas galimų kombinacijų skaičius
         int combinations = (int) Math.pow(2, n);
 
+        //gaunami visi galimi dešimtainiai skaičiai
+        List<Integer> allDecimalNumbers = new ArrayList<>();
+        for (int i = 0; i < combinations; i++) {
+            allDecimalNumbers.add(i);
+        }
         //iš standartinės lentelės gaunami visi jau panaudoti skaičiai dešimtainiame formate
-        List<List<Integer>> takenNums = table.stream()
+        List<List<Integer>> takenDecimal = table.stream()
                 .map(coset -> coset.stream()
                         .map(x -> Integer.parseInt(Vector.vectorToString(x, ""), 2))
                         .collect(Collectors.toList()))
                 .collect(Collectors.toList());
 
-        //gaunami visi galimi dešimtainiai skaičiai
-        List<Integer> allPossibleNumbers = new ArrayList<>();
-        for (int i = 0; i < combinations; i++) {
-            allPossibleNumbers.add(i);
-        }
-
         //iš visų galimų skaičių atimami jau panaudoti standartinėje lentelėje esantys skaičiai
-        List<Integer> possNumbers = allPossibleNumbers.stream().filter((x) -> {
-            for (List<Integer> row : takenNums) {
+        List<Integer> candidate = allDecimalNumbers.stream().filter((x) -> {
+            for (List<Integer> row : takenDecimal) {
                 for (int i = 0; i < row.size(); i++) {
                     if (row.indexOf(x) > -1)
                         return false;
@@ -118,17 +117,17 @@ public class Decoder {
         }).collect(Collectors.toList());
 
         //atrinkti galimi skaičiai paverčiami į vektorius
-        List<int[]> allPossibleVectors = possNumbers.stream()
+        List<int[]> candidateVectors = candidate.stream()
                 .map(number -> Vector.intoBinaryArray(number, n))
                 .collect(Collectors.toList());
 
         //išrikiuojami pagal svorius, pradedant mažiausiu
-        allPossibleVectors.sort(Comparator.comparingInt(Vector::getWeight));
+        candidateVectors.sort(Comparator.comparingInt(Vector::getWeight));
 
         List<int[]> coset = new ArrayList<>();
         List<int[]> firstCoset = table.get(0);
         //paimamas pirmas vektorius, kuris bus klasės lyderiu
-        int[] cosetLeader = allPossibleVectors.get(0);
+        int[] cosetLeader = candidateVectors.get(0);
         coset.add(cosetLeader);
 
         //iteruojama tiek kartų kiek reikia klasėje žodžių. Klasės lyderis kiekvieną kartą sudedamas vis su kitu kodu ir patalpinamas lentelėje
