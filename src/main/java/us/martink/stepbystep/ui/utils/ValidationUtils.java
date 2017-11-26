@@ -2,6 +2,8 @@ package us.martink.stepbystep.ui.utils;
 
 import org.apache.commons.lang3.StringUtils;
 import us.martink.stepbystep.ui.model.Matrix;
+import us.martink.stepbystep.ui.model.RequestForm;
+import us.martink.stepbystep.ui.model.TextRequestForm;
 import us.martink.stepbystep.ui.model.VectorRequestForm;
 
 import java.util.Arrays;
@@ -56,15 +58,28 @@ public class ValidationUtils {
         return null;
     }
 
-    private static String validateMatrix(VectorRequestForm vectorRequest) {
-        Matrix matrix = vectorRequest.getMatrix();
+    public static String validateBeforeTextEncoding(TextRequestForm textRequest) {
+        String validate = validateBasic(textRequest);
+        if (validate != null) {
+            return validate;
+        }
+
+        validate = validateMatrix(textRequest);
+        if (validate != null) {
+            return validate;
+        }
+        return null;
+    }
+
+    private static String validateMatrix(RequestForm requestForm) {
+        Matrix matrix = requestForm.getMatrix();
         if (StringUtils.isNoneBlank(matrix.getMatrixText())) {
             String[] matrixRows = matrix.getMatrixText().split("\n");
 
-            if (matrixRows.length != vectorRequest.getK()) {
+            if (matrixRows.length != requestForm.getK()) {
                 return "matricos eilučių skaičius turi būti lygus k";
             }
-            matrix.setMatrix(new int[vectorRequest.getK()][vectorRequest.getN()]);
+            matrix.setMatrix(new int[requestForm.getK()][requestForm.getN()]);
             for (int i = 0; i < matrixRows.length; i++) {
                 String matrixRow = matrixRows[i];
                 String[] rowValues = matrixRow.split(" ");
@@ -72,11 +87,11 @@ public class ValidationUtils {
                 if (matrixRowValues.length != rowValues.length) {
                     return "Neteisingas matricos formatas. Eilutė: " + i;
                 }
-                if (matrixRowValues.length != vectorRequest.getN()) {
+                if (matrixRowValues.length != requestForm.getN()) {
                     return "Stulpelių skaičius turi būti lygus n. Eilutė: " + i;
                 }
 
-//                for (int j = 0; j < vectorRequest.getN(); j++) {
+//                for (int j = 0; j < requestForm.getN(); j++) {
 //                    if ((j == i && matrixRowValues[j] != 1) || (j != i && matrixRowValues[j] != 0)) {
 //                        return "Matrica turi būti standartinio pavidalo. Eilutė: " + i + " Stulpelis: " + j;
 //                    }
@@ -84,39 +99,39 @@ public class ValidationUtils {
                 matrix.getMatrix()[i] = matrixRowValues;
             }
         } else {
-            matrix.setMatrix(Matrix.generateRandomMatrix(vectorRequest.getN(), vectorRequest.getK()));
+            matrix.setMatrix(Matrix.generateRandomMatrix(requestForm.getN(), requestForm.getK()));
             matrix.setMatrixText(Matrix.matrixToString(matrix.getMatrix()));
         }
         return null;
     }
 
-    private static String validateBasic(VectorRequestForm vectorRequest) {
-        if (StringUtils.isNoneBlank(vectorRequest.getpText())) {
-            double p = getDouble(vectorRequest.getpText());
+    private static String validateBasic(RequestForm requestForm) {
+        if (StringUtils.isNoneBlank(requestForm.getpText())) {
+            double p = getDouble(requestForm.getpText());
             if (p > 1 || p < 0) {
                 return "p turi būti tarp 0 ir 1";
             }
-            vectorRequest.setP(p);
+            requestForm.setP(p);
         } else {
             return "p yra privalomas";
         }
 
-        if (StringUtils.isNoneBlank(vectorRequest.getkText())) {
-            int k = getInteger(vectorRequest.getkText());
+        if (StringUtils.isNoneBlank(requestForm.getkText())) {
+            int k = getInteger(requestForm.getkText());
             if (k <= 0) {
                 return "k turi būti virš 0";
             }
-            vectorRequest.setK(k);
+            requestForm.setK(k);
         } else {
             return "k yra privalomas";
         }
 
-        if (StringUtils.isNoneBlank(vectorRequest.getnText())) {
-            int n = getInteger(vectorRequest.getnText());
+        if (StringUtils.isNoneBlank(requestForm.getnText())) {
+            int n = getInteger(requestForm.getnText());
             if (n <= 0) {
                 return "n turi būti virš 0";
             }
-            vectorRequest.setN(n);
+            requestForm.setN(n);
         } else {
             return "n yra privalomas";
         }
@@ -138,4 +153,5 @@ public class ValidationUtils {
             return -1;
         }
     }
+
 }

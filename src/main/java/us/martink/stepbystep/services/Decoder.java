@@ -4,6 +4,7 @@ import us.martink.stepbystep.ui.model.Matrix;
 import us.martink.stepbystep.ui.model.Vector;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
@@ -15,8 +16,7 @@ import java.util.stream.Collectors;
  */
 public class Decoder {
 
-    public static int[] decodeVector(Matrix matrixG, Vector vector) {
-        int[] encodedVector = vector.getVector();
+    public static int[] decodeVector(Matrix matrixG, int[] encodedVector) {
         int[][] matrix = matrixG.getMatrix();
         int k = matrix.length;
         int n = matrix[0].length;
@@ -57,7 +57,8 @@ public class Decoder {
             }
             position++;
         }
-        return encodedVector;
+
+        return Arrays.copyOfRange(encodedVector, 0, k);
     }
 
     private static void setCosetRow(List<List<int[]>> table, int n, int size) {

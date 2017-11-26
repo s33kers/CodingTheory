@@ -73,7 +73,7 @@ public class VectorController {
         vectorRequest.getTransferredVector().setVector(Vector.textToVector(vectorRequest.getTransferredVector().getVectorText()));
 
         vectorRequest.setDecodedVector(new Vector());
-        vectorRequest.getDecodedVector().setVector(Decoder.decodeVector(vectorRequest.getMatrix(), vectorRequest.getTransferredVector()));
+        vectorRequest.getDecodedVector().setVector(Decoder.decodeVector(vectorRequest.getMatrix(), vectorRequest.getTransferredVector().getVector()));
         vectorRequest.getDecodedVector().setVectorText(Vector.vectorToString(vectorRequest.getDecodedVector().getVector(), ""));
 
         model.addAttribute("requestForm", vectorRequest);
