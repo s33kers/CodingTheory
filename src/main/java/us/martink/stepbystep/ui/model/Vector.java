@@ -52,6 +52,7 @@ public class Vector {
      * @return vektorius
      */
     public static int[] textToVector(String vectorText) {
+        vectorText = vectorText.replace(" ", "");
         int[] vector = new int[vectorText.length()];
         for (int i = 0; i < vectorText.length(); i++)
         {
