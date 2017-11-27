@@ -96,6 +96,12 @@ public class ValidationUtils {
                     return "Stulpelių skaičius turi būti lygus n. Eilutė: " + i;
                 }
 
+                for (int j = 0; j < requestForm.getK(); j++) {
+                    if ((j == i && matrixRowValues[j] != 1) || (j != i && matrixRowValues[j] != 0)) {
+                        return "Matrica turi būti standartinio pavidalo. Eilutė: " + i + " Stulpelis: " + j;
+                    }
+                }
+
                 matrix.getMatrix()[i] = matrixRowValues;
             }
         } else {
