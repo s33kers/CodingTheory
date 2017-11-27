@@ -31,8 +31,8 @@ public class Matrix {
 
     /**
      * Atsitiktine matrica standartiniu pavidalu
-     * @param n kodo dimensija
-     * @param k kodi ilgis
+     * @param n kodo ilgis
+     * @param k kodi dimensija
      * @return sugeneruota matrica
      */
     public static int[][] generateRandomMatrix(int n, int k) {
@@ -57,7 +57,7 @@ public class Matrix {
      * @return rezultatas
      */
     public static int[] multiplyByVectorT(int[][] matrix, int[] vector) {
-        //Tikriname ar masyvo ilgis atitinka su vektoriaus ilgiu
+        //Tikriname ar masyvo dimensija atitinka su vektoriaus ilgiu
         if (vector.length != matrix[0].length) {
             throw new IllegalArgumentException();
         }

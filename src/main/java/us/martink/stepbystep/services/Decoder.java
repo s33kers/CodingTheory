@@ -94,7 +94,7 @@ public class Decoder {
     /**
      * Apskaičiuojamos klasės pagal kodus esančius lentelės table pradžioje
      * @param table standartinė lentelė
-     * @param n kodo dimensija
+     * @param n kodo ilgis
      * @param size klasės ilgis
      */
     private static void setCosetRow(List<List<int[]>> table, int n, int size) {
