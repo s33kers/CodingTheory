@@ -42,7 +42,7 @@ public class Matrix {
                 if (k-j > 0) {
                     matrix[i][j] = (i == j ? 1 : 0);
                 } else {
-                    matrix[i][j] = (Math.random() % 2 == 0 ? 1 : 0);
+                    matrix[i][j] = (Math.random() > 0.5 ? 1 : 0);
                 }
             }
 
