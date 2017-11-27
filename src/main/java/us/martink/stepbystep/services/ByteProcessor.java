@@ -23,7 +23,7 @@ public class ByteProcessor {
 
         //kodo ilgis
         int k = matrix.getMatrix().length;
-        int vectorLengthLeft = binary.length() % k;
+        int vectorLengthLeft = k - (binary.length() % k);
         binary = correctBinaryLength(binary, vectorLengthLeft);
 
         StringBuilder stringBuilder = new StringBuilder();
@@ -65,7 +65,7 @@ public class ByteProcessor {
 
         //kodo ilgis
         int k = matrix.getMatrix().length;
-        int vectorLengthLeft = binary.length() % k;
+        int vectorLengthLeft = k - (binary.length() % k);
         binary = correctBinaryLength(binary, vectorLengthLeft);
 
         StringBuilder stringBuilder = new StringBuilder();

@@ -56,7 +56,7 @@ public class PhotoController {
         return "photo";
     }
 
-    @RequestMapping(value = "/image/{image_id}", produces = MediaType.IMAGE_PNG_VALUE)
+    @RequestMapping(value = "/image/{image_id}", produces = MediaType.IMAGE_JPEG_VALUE)
     public ResponseEntity<byte[]> getImage(@PathVariable("image_id") int imageId) throws IOException {
 
         byte[] imageContent = null;
